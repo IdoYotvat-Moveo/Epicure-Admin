@@ -12,12 +12,30 @@ import ListItemText from '@mui/material/ListItemText';
 import PersonIcon from '@mui/icons-material/Person';
 import RestaurantMenuIcon from '@mui/icons-material/RestaurantMenu';
 import RamenDiningIcon from '@mui/icons-material/RamenDining';
+import { useState } from 'react';
 
 
 const drawerWidth = 240;
 
 const SideBar = () => {
-    // const [open, setOpen] = useState(false)
+    const [selectedItem, setSelectedItem] = useState<string>('Chef');
+
+    const handleListItemClick = (item: string) => {
+      setSelectedItem(item);
+    };
+  
+    const renderContent = () => {
+      switch (selectedItem) {
+        case 'Chef':
+          return <Typography paragraph>Chef Information</Typography>;
+        case 'Restaurant':
+          return <Typography paragraph>Restaurant Information</Typography>;
+        case 'Dish':
+          return <Typography paragraph>Dish Information</Typography>;
+        default:
+          return null
+      }
+    }
     
   return (
     <Box sx={{ display: 'flex' }}>
@@ -42,7 +60,7 @@ const SideBar = () => {
           <List>
             {['Chef', 'Restaurant', 'Dish'].map((text, index) => (
               <ListItem key={text} disablePadding>
-                <ListItemButton>
+                <ListItemButton onClick={() => handleListItemClick(text)} >
                   <ListItemIcon>
                     {index === 0 && <PersonIcon /> }
                     {index === 1 && <RestaurantMenuIcon />}
@@ -57,10 +75,7 @@ const SideBar = () => {
       </Drawer>
       <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
         <Toolbar />
-        <Typography paragraph>
-        </Typography>
-        <Typography paragraph>
-        </Typography>
+        {renderContent()}
       </Box>
     </Box>
   )
