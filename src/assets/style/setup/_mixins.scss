@@ -1,0 +1,24 @@
+// @mixin for-mobile-layout {
+//   @media (max-width: $break-mobile) {
+//     @content;
+//   }
+// }
+
+@mixin for-small-layout {
+  @media (min-width: $break-small) {
+    @content;
+  }
+}
+
+@mixin for-narrow-layout {
+  @media (min-width: $break-narrow) {
+    @content;
+  }
+}
+
+@mixin for-desktop-layout {
+    @media (min-width: $break-desktop) {
+      @content;
+    }
+  }
+  
