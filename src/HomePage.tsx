@@ -1,8 +1,10 @@
+import SideBar from "./components/SideBar"
 
 const HomePage = () => {
   return (
-    <div>
-    </div>
+    <>
+    <SideBar/>
+    </>
   )
 }
 
