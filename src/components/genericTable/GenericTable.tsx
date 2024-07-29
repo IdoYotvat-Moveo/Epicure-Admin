@@ -11,6 +11,7 @@ import TableHead from '@mui/material/TableHead'
 import TableRow from '@mui/material/TableRow'
 import Paper from '@mui/material/Paper'
 import GenericTableRow from '../genericTableRow/GenericTableRow'
+import { StyledTable } from './styles'
 interface GenericTableProps {
   entity: string
 }
@@ -24,10 +25,9 @@ const GenericTable = ({ entity }: GenericTableProps) => {
 
   const loadTable = async () => {
     try {
-      let response;
+      let response
       switch (entity.toLowerCase()) {
         case 'chef':
-          console.log('chef')
           response = await chefService.getAllChefs()
           break;
         case 'restaurant':
@@ -47,14 +47,12 @@ const GenericTable = ({ entity }: GenericTableProps) => {
   }
 
   if (!data || !data.length) return <div className="loader"></div>
-  else console.log(data)
-
   const headers = Object.keys(data[0])
 
   return (
     (
       <TableContainer component={Paper}>
-        <Table sx={{ minWidth: 650 }} aria-label="simple table">
+        <StyledTable aria-label="simple table">
           <TableHead>
           <TableRow>
             {headers.map((header) => (
@@ -67,7 +65,7 @@ const GenericTable = ({ entity }: GenericTableProps) => {
             <GenericTableRow key={index} row={row} />
           ))}
         </TableBody>
-        </Table>
+        </StyledTable>
       </TableContainer>
     )
   )
