@@ -8,28 +8,15 @@ import ListItem from '@mui/material/ListItem'
 import ListItemButton from '@mui/material/ListItemButton'
 import ListItemIcon from '@mui/material/ListItemIcon'
 import ListItemText from '@mui/material/ListItemText'
-import { useState } from 'react'
+import { Outlet, useNavigate } from 'react-router-dom'
 
 
 
 const SideBar = () => {
-  const [selectedItem, setSelectedItem] = useState<string>('Chef')
+  const navigate = useNavigate()
 
-  const handleListItemClick = (item: string) => {
-    setSelectedItem(item)
-  };
-
-  const renderContent = () => {
-    switch (selectedItem) {
-      case 'Chef':
-        return <Typography paragraph>Chef Information</Typography>
-      case 'Restaurant':
-        return <Typography paragraph>Restaurant Information</Typography>
-      case 'Dish':
-        return <Typography paragraph>Dish Information</Typography>
-      default:
-        return null
-    }
+  const handleListItemClick = (path: string) => {
+    navigate(`/${path.toLowerCase()}`);
   }
 
   return (
@@ -61,7 +48,7 @@ const SideBar = () => {
       </DrawerStyled>
       <MainContent component="main">
         <Toolbar />
-        {renderContent()}
+        <Outlet/>
       </MainContent>
     </Root>
   )
