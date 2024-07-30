@@ -1,27 +1,28 @@
 import { useEffect } from 'react'
+import { shallowEqual, useDispatch, useSelector } from 'react-redux'
 import TableBody from '@mui/material/TableBody'
 import TableCell from '@mui/material/TableCell'
 import TableContainer from '@mui/material/TableContainer'
 import TableHead from '@mui/material/TableHead'
 import TableRow from '@mui/material/TableRow'
 import Paper from '@mui/material/Paper'
-import GenericTableRow from '../genericTableRow/GenericTableRow'
 import { StyledTable } from './styles'
-import { shallowEqual, useDispatch, useSelector } from 'react-redux'
 import { RootState } from '../../redux/store/root-reducer'
+import GenericTableRow from '../genericTableRow/GenericTableRow'
+import { AppDispatch } from '../../redux/store/store'
+import * as dishThunks from '../../redux/chunks/dish/dish.thunks'
 import * as chefThunks from '../../redux/chunks/chef/chef.thunks'
 import * as restaurantThunks from '../../redux/chunks/restaurant/restaurant.thunks'
-import * as dishThunks from '../../redux/chunks/dish/dish.thunks'
-import { AppDispatch } from '../../redux/store/store'
+import FormModal from '../formModal/FormModal'
+import { EntityType } from '../../data/types'
 
-type EntityType = 'chef' | 'restaurant' | 'dish'
+
 interface GenericTableProps {
   entity: EntityType
 }
 
-
 const GenericTable = ({ entity }: GenericTableProps) => {
-  const dispatch:AppDispatch = useDispatch()
+  const dispatch: AppDispatch = useDispatch()
   const data = useSelector((state: RootState) => {
     switch (entity) {
       case 'chef':
@@ -33,10 +34,10 @@ const GenericTable = ({ entity }: GenericTableProps) => {
       default:
         return []
     }
-  },shallowEqual)
+  }, shallowEqual)
 
   useEffect(() => {
-    if (!data || !data.length){
+    if (!data || !data.length) {
       loadTable()
     }
   }, [entity])
@@ -47,11 +48,11 @@ const GenericTable = ({ entity }: GenericTableProps) => {
         case 'chef':
           dispatch(chefThunks.getAllChefs())
           break;
-          case 'restaurant':
-            dispatch(restaurantThunks.getAllRestaurants())
-            break;
-            case 'dish':
-              dispatch(dishThunks.getAllDishes())
+        case 'restaurant':
+          dispatch(restaurantThunks.getAllRestaurants())
+          break;
+        case 'dish':
+          dispatch(dishThunks.getAllDishes())
           break;
         default:
           console.error('Unknown entity')
@@ -65,10 +66,9 @@ const GenericTable = ({ entity }: GenericTableProps) => {
   if (!data || !data.length) return <div className="loader"></div>
   const headers = Object.keys(data[0])
 
-  console.log(data)
-  
   return (
-    (
+    (<>
+      <FormModal entity={entity}/>
       <TableContainer component={Paper}>
         <StyledTable aria-label="simple table">
           <TableHead>
@@ -85,6 +85,7 @@ const GenericTable = ({ entity }: GenericTableProps) => {
           </TableBody>
         </StyledTable>
       </TableContainer>
+    </>
     )
   )
 }

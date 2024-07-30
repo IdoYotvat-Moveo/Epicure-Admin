@@ -54,4 +54,7 @@ export type Chef = {
     isChefOfTheWeek: boolean
 }
 
+export type Entity = Chef | Dish | Restaurant;
+export type EntityType = 'chef' | 'restaurant' | 'dish'
+
 
