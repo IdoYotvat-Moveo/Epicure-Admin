@@ -50,11 +50,23 @@ export type Chef = {
     name: string
     bio: string
     image?: string
-    restaurants?:Restaurant[]
+    restaurants?: Restaurant[]
     isChefOfTheWeek: boolean
 }
 
 export type Entity = Chef | Dish | Restaurant;
 export type EntityType = 'chef' | 'restaurant' | 'dish'
+
+
+export interface UpdatePayload<T> {
+    id: string;
+    data: T;
+  }
+export interface addPayload<T> {
+    data: T;
+}
+export interface removePayload {
+    id: string;
+}
 
 
