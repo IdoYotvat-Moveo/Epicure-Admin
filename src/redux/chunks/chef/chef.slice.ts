@@ -20,6 +20,7 @@ const chefSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
+    //get all
       .addCase(getAllChefs.pending, (state) => {
         state.status = 'loading'
       })

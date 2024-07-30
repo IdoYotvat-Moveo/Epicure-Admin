@@ -37,8 +37,10 @@ const FormModal = ({entity}:ModalProps) => {
                     <Typography id="modal-modal-title" variant="h6" component="h2">
                         Add entity
                     </Typography>
-                    <form onSubmit={handleSubmit}></form>
-                    <button onClick={handleSubmit}>submit</button>
+                    <form onSubmit={handleSubmit}>
+
+                    <button>submit</button>
+                    </form>
                 </StyledModal>
             </Modal>
         </div>
