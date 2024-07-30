@@ -26,6 +26,7 @@ export enum EiconMeaning {
 }
 
 export type Dish = {
+    _id?:string
     title: string
     image?: string
     ingredients: string[]
@@ -37,6 +38,7 @@ export type Dish = {
 
 
 export type Restaurant = {
+    _id?:string
     name: string
     chef?: Chef
     image: string
@@ -47,6 +49,7 @@ export type Restaurant = {
 }
 
 export type Chef = {
+    _id?: string
     name: string
     bio: string
     image?: string
@@ -61,11 +64,11 @@ export type EntityType = 'chef' | 'restaurant' | 'dish'
 export interface UpdatePayload<T> {
     id: string;
     data: T;
-  }
-export interface addPayload<T> {
+}
+export interface AddPayload<T> {
     data: T;
 }
-export interface removePayload {
+export interface RemovePayload {
     id: string;
 }
 

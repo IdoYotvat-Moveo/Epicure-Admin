@@ -1,6 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import * as chefService from '../../../services/chef.service'
-import { Chef, UpdatePayload, addPayload, removePayload } from '../../../data/types';
+import { Chef, UpdatePayload, AddPayload, RemovePayload } from '../../../data/types';
 
 
 
@@ -18,13 +18,13 @@ export const updateChef = createAsyncThunk<Chef, UpdatePayload<Chef>>(
   }
 )
 
-export const addChef = createAsyncThunk<Chef,addPayload<Chef>>(
+export const addChef = createAsyncThunk<Chef,AddPayload<Chef>>(
   'chefs/add',
   async ({data }) => {
     return await chefService.addChef(data)
   }
 )
-export const removeChef = createAsyncThunk<Chef,removePayload>(
+export const removeChef = createAsyncThunk<Chef,RemovePayload>(
   'chefs/remove',
   async ({id }) => {
     return await chefService.removeChef(id)

@@ -1,6 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit"
 import * as dishService from '../../../services/dish.service'
-import { Dish, UpdatePayload, addPayload, removePayload } from "../../../data/types"
+import { Dish, UpdatePayload, AddPayload, RemovePayload } from "../../../data/types"
 
 export const getAllDishes = createAsyncThunk<Dish[]>(
     'dish/getAll',
@@ -16,14 +16,14 @@ export const updateDish = createAsyncThunk<Dish,UpdatePayload<Dish>>(
     }
   )
 
-  export const addDish = createAsyncThunk<Dish,addPayload<Dish>>(
+  export const addDish = createAsyncThunk<Dish,AddPayload<Dish>>(
     'dish/add',
     async ({data }) => {
       return await dishService.addDish(data)
     }
   )
 
-  export const removeDish = createAsyncThunk<Dish,removePayload>(
+  export const removeDish = createAsyncThunk<Dish,RemovePayload>(
     'dish/remove',
     async ({id }) => {
       return await dishService.removeDish(id)
