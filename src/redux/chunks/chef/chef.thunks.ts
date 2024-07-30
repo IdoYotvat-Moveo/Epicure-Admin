@@ -5,7 +5,6 @@ import { Chef } from '../../../data/types';
 export const getAllChefs = createAsyncThunk<Chef[]>(
   'chefs/getAll',
   async () => {
-    const chefs = await chefService.getAllChefs()
-    return chefs
+    return await chefService.getAllChefs()
   }
 )

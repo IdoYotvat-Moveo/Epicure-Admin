@@ -5,7 +5,6 @@ import { Dish } from "../../../data/types"
 export const getAllDishes = createAsyncThunk<Dish[]>(
     'dish/getAll',
     async () => {
-      const dishes = await dishService.getAllDishes()
-      return dishes
+      return await dishService.getAllDishes()
     }
   )

@@ -5,7 +5,6 @@ import { Restaurant } from "../../../data/types"
 export const getAllRestaurants = createAsyncThunk<Restaurant[]>(
     'restaurant/getAll',
     async () => {
-      const restaurants = await restaurantService.getAllRestaurants()
-      return restaurants
+      return await restaurantService.getAllRestaurants()
     }
   )
