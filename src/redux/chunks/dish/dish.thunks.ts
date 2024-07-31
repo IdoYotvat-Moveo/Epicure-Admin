@@ -1,6 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit"
 import * as dishService from '../../../services/dish.service'
 import { Dish, UpdatePayload, AddPayload, RemovePayload } from "../../../data/types"
+import { RootState } from "../../store/root-reducer"
 
 export const getAllDishes = createAsyncThunk<Dish[]>(
   'dish/getAll',
@@ -28,9 +29,17 @@ export const updateDish = createAsyncThunk<Dish, UpdatePayload<Dish>>(
 
 export const addDish = createAsyncThunk<Dish, AddPayload<Dish>>(
   'dish/add',
-  async ({ data }, { rejectWithValue }) => {
+  async ({ data }, { getState, rejectWithValue }) => {
+    const state = getState() as RootState
+    const restaurantId = data.restaurant ?
+      state.restaurants.restaurants.find(res => res.name === data.restaurant)?._id || null
+      : null
+    const dishData: Dish = {
+      ...data, restaurant: restaurantId
+    }
+
     try {
-      return await dishService.addDish(data)
+      return await dishService.addDish(dishData)
     } catch (err: any) {
       console.log('dish thunks=> could not add dish', err)
       return rejectWithValue(err.response?.data || err.message)

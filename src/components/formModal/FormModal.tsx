@@ -13,6 +13,7 @@ import * as dishThunks from '../../redux/chunks/dish/dish.thunks'
 import { AppDispatch } from '../../redux/store/store';
 import ChefForm from '../chefForm/ChefForm';
 import RestaurantForm from '../restaurantForm/RestaurantForm';
+import DishForm from '../dishForm/DishForm';
 // import RestaurantForm from '../restaurantForm/RestaurantForm';
 
 
@@ -93,6 +94,7 @@ const FormModal = ({ entity }: ModalProps) => {
                     </Typography>
                     {entity === 'chef' && <ChefForm restaurants={restaurants} handleSubmit={handleSubmit} />}
                     {entity === 'restaurant' && <RestaurantForm chefs={chefs} handleSubmit={handleSubmit} dishes={dishes} />}
+                    {entity === 'dish' && <DishForm restaurants={restaurants} handleSubmit={handleSubmit}/>}
                 </StyledModal>
             </Modal>
         </div>

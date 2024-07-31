@@ -3,12 +3,12 @@ import { httpService } from "./http.service"
 
 //get
 export const getAllRestaurants = async ():Promise<Restaurant[]> => {
-    return httpService.get('/restaurant')
+    return httpService.get('restaurant')
 }
 
 //update
 export const updateRestaurant = async (restaurantId: string, restauranData: Restaurant): Promise<Restaurant> => {
-    return httpService.put(`/restaurant/${restaurantId}`,restauranData)
+    return httpService.put(`restaurant/${restaurantId}`,restauranData)
 }
 
 //create
@@ -19,5 +19,5 @@ export const addRestaurant = async (restauranData: Restaurant): Promise<Restaura
 
 //delete
 export const removeRestaurant = async (restaurantId: string): Promise<Restaurant> => {
-    return httpService.delete(`/restaurant/${restaurantId}`)
+    return httpService.delete(`restaurant/${restaurantId}`)
 }

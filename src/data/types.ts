@@ -31,7 +31,7 @@ export type Dish = {
     image?: string
     ingredients: string[]
     price: number
-    restaurant: string
+    restaurant: string | null
     icons: EiconMeaning[] | null
     isActive: boolean
 }

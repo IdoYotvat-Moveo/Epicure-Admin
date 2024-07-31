@@ -3,14 +3,14 @@ import { Chef, Dish, Restaurant } from "../../data/types"
 import { useState } from "react"
 import { StyledForm, StyledSubmitBtn } from "../chefForm/style"
 
-interface ChefFormProps {
+interface RestaurantFormProps {
     chefs: Chef[]
     dishes: Dish[]
     handleSubmit: (data: Chef | Restaurant | Dish) => Promise<void>
 }
 
 
-const RestaurantForm = ({ chefs, handleSubmit, dishes }: ChefFormProps) => {
+const RestaurantForm = ({ chefs, handleSubmit, dishes }: RestaurantFormProps) => {
     const [formData, setFormData] = useState({
         name: '',
         chef: '',
@@ -78,11 +78,11 @@ const RestaurantForm = ({ chefs, handleSubmit, dishes }: ChefFormProps) => {
             />
             <InputLabel id="chef">Chef</InputLabel>
             <Select
-                name="chef" // Add name attribute
+                name="chef"
                 labelId="chef"
                 id="chef-select"
                 value={formData.chef}
-                onChange={handleChange} // Use handleChange for single select
+                onChange={handleChange} 
                 input={<OutlinedInput label="Chef" />}
             >
                 {chefs.map((chef) => (
@@ -93,7 +93,7 @@ const RestaurantForm = ({ chefs, handleSubmit, dishes }: ChefFormProps) => {
             </Select>
             <InputLabel id="dishes">Dishes</InputLabel>
             <Select
-                name="dishes" // Add name attribute
+                name="dishes" 
                 labelId="dishes"
                 id="dishes-select"
                 multiple
