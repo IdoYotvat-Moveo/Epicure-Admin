@@ -44,7 +44,7 @@ export type Restaurant = {
     image: string
     rating: number
     dishes: string[]
-    signatureDish?: string
+    signatureDish?: string | null
     isPopular?: boolean
 }
 

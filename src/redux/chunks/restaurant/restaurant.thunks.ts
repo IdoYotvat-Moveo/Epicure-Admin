@@ -40,8 +40,12 @@ export const addRestaurant = createAsyncThunk<Restaurant, AddPayload<Restaurant>
       const chefId = data.chef ?
         state.chefs.chefs.find(chef => chef.name === data.chef)?._id || null
         : null
-      const restaurantData: Restaurant = {
-        ...data, dishes: dishesId, chef: chefId
+
+      const signatureDishId = data.signatureDish ?
+        state.dishes.dishes.find(dish => dish.title === data.signatureDish)?._id || null : null
+
+        const restaurantData: Restaurant = {
+        ...data, dishes: dishesId, chef: chefId, signatureDish: signatureDishId
       }
 
       return await restaurantService.addRestaurant(restaurantData)

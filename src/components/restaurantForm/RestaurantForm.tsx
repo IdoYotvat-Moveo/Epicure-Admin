@@ -1,4 +1,4 @@
-import { FormControlLabel, InputLabel, MenuItem, OutlinedInput, Select, SelectChangeEvent, Switch, TextField } from "@mui/material"
+import { FormControlLabel, InputLabel, MenuItem, OutlinedInput, Rating, Select, SelectChangeEvent, Switch, TextField } from "@mui/material"
 import { Chef, Dish, Restaurant } from "../../data/types"
 import { useState } from "react"
 import { StyledForm, StyledSubmitBtn } from "../chefForm/style"
@@ -46,6 +46,12 @@ const RestaurantForm = ({ chefs, handleSubmit, dishes }: ChefFormProps) => {
         }))
     }
 
+    const handleRatingChange = (newValue: number | null, name: string) => {
+        setFormData(prevFormData => ({
+            ...prevFormData,
+            [name]: newValue !== null ? newValue : 0
+        }))
+    }
 
     const submitHandler = async (ev: React.FormEvent) => {
         ev.preventDefault()
@@ -112,6 +118,26 @@ const RestaurantForm = ({ chefs, handleSubmit, dishes }: ChefFormProps) => {
                 }
                 label="is Popular?"
             />
+            <Rating
+                name="rating"
+                value={formData.rating}
+                onChange={(event, newValue) => handleRatingChange(newValue, 'rating')}
+            />
+            <InputLabel id="signatureDish">Signature Dish</InputLabel>
+            <Select
+                name="signatureDish" 
+                labelId="signatureDish"
+                id="signatureDish-select"
+                value={formData.signatureDish}
+                onChange={handleChange} 
+                input={<OutlinedInput label="SignatureDish" />}
+            >
+                {dishes.map((dish) => (
+                    <MenuItem key={dish._id} value={dish.title}>
+                        {dish.title}
+                    </MenuItem>
+                ))}
+            </Select>
             <StyledSubmitBtn type="submit">Submit</StyledSubmitBtn>
         </StyledForm>
     )
