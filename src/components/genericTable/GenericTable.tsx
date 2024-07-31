@@ -22,7 +22,7 @@ interface GenericTableProps {
 }
 
 const GenericTable = ({ entity }: GenericTableProps) => {
-  const dispatch: AppDispatch = useDispatch()
+  const dispatch = useDispatch<AppDispatch>()
   const data = useSelector((state: RootState) => {
     switch (entity) {
       case 'chef':
@@ -63,12 +63,13 @@ const GenericTable = ({ entity }: GenericTableProps) => {
     }
   }
 
+  
   if (!data || !data.length) return <div className="loader"></div>
   const headers = Object.keys(data[0])
 
   return (
     (<>
-      <FormModal entity={entity}/>
+      <FormModal entity={entity} />
       <TableContainer component={Paper}>
         <StyledTable aria-label="simple table">
           <TableHead>

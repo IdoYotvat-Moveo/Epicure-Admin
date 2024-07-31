@@ -1,26 +1,79 @@
-import * as React from 'react';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import AddBoxSharpIcon from '@mui/icons-material/AddBoxSharp'
 import { StyledModal } from './styles';
-import {EntityType } from '../../data/types';
+import { Chef, Dish, EntityType, Restaurant } from '../../data/types';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../../redux/store/root-reducer';
+import * as chefThunks from '../../redux/chunks/chef/chef.thunks'
+import * as restaurantThunks from '../../redux/chunks/restaurant/restaurant.thunks'
+import * as dishThunks from '../../redux/chunks/dish/dish.thunks'
+import { AppDispatch } from '../../redux/store/store';
+import ChefForm from '../chefForm/ChefForm';
+// import RestaurantForm from '../restaurantForm/RestaurantForm';
 
 
 interface ModalProps {
-    entity:EntityType
+    entity: EntityType
+
 }
 
 
-const FormModal = ({entity}:ModalProps) => {
-    const [open, setOpen] = React.useState(false)
+const FormModal = ({ entity }: ModalProps) => {
+    const [open, setOpen] = useState(false)
+    const dispatch = useDispatch<AppDispatch>()
+
+    const restaurants = useSelector((state: RootState) => state.restaurants.restaurants)
+    // const dishes = useSelector((state: RootState) => state.dishes.dishes)
+    // const chefs = useSelector((state: RootState) => state.chefs.chefs)
+
+    useEffect(() => {
+        dispatch(restaurantThunks.getAllRestaurants())
+        dispatch(dishThunks.getAllDishes())
+        dispatch(chefThunks.getAllChefs())
+    }, [])
+
     const handleOpen = () => setOpen(true)
+
     const handleClose = () => setOpen(false)
 
-    const handleSubmit = async (ev: React.FormEvent) => {
-        ev.preventDefault()
-        handleClose()
+    const handleSubmit = async (data: Chef | Restaurant | Dish) => {
+        
+        try {
+            if (data._id) {
+                switch (entity) {
+                    case 'chef':
+                        await dispatch(chefThunks.updateChef({ id: data._id, data: data as Chef }))
+                        break;
+                    case 'restaurant':
+                        await dispatch(restaurantThunks.updateRestaurant({ id: data._id, data: data as Restaurant }))
+                        break;
+                    case 'dish':
+                        await dispatch(dishThunks.updateDish({ id: data._id, data: data as Dish }))
+                        break;
+                }
+            } else {
+                switch (entity) {
+                    case 'chef':
+                        await dispatch(chefThunks.addChef({ data: data as Chef }))
+                        break;
+                    case 'restaurant':
+                        await dispatch(restaurantThunks.addRestaurant({ data: data as Restaurant }))
+                        break;
+                    case 'dish':
+                        await dispatch(dishThunks.addDish({ data: data as Dish }))
+                        break;
+                }
+            }
+        } catch (error) {
+            console.error('Failed to submit data', error)
+        } finally {
+            handleClose()
+        }
     }
+
 
     return (
         <div>
@@ -35,12 +88,10 @@ const FormModal = ({entity}:ModalProps) => {
             >
                 <StyledModal>
                     <Typography id="modal-modal-title" variant="h6" component="h2">
-                        Add entity
+                        Add {entity}
                     </Typography>
-                    <form onSubmit={handleSubmit}>
-
-                    <button>submit</button>
-                    </form>
+                    {entity === 'chef' && <ChefForm restaurants={restaurants} handleSubmit={handleSubmit} />}
+                    {/* {entity === 'restaurant' && <RestaurantForm chefs={chefs} handleSubmit={handleSubmit} dishes={dishes} />} */}
                 </StyledModal>
             </Modal>
         </div>

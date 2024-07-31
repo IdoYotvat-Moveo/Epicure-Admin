@@ -53,7 +53,7 @@ export type Chef = {
     name: string
     bio: string
     image?: string
-    restaurants?: Restaurant[]
+    restaurants?: Restaurant[] | string []
     isChefOfTheWeek: boolean
 }
 

@@ -3,7 +3,7 @@ import Box from '@mui/material/Box'
 import AppBar from '@mui/material/AppBar'
 import Drawer from '@mui/material/Drawer'
 
-const drawerWidth = 240
+const drawerWidth = 180
 
 export const Root = styled(Box)({
   display: 'flex',

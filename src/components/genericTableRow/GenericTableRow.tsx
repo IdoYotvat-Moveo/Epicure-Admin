@@ -1,4 +1,3 @@
-// import { Key } from '@mui/icons-material';
 import { TableCell, TableRow } from '@mui/material'
 import DeleteIcon from '@mui/icons-material/Delete'
 import EditIcon from '@mui/icons-material/Edit'
@@ -15,14 +14,12 @@ interface GenericTableRowProps {
 const GenericTableRow = ({ row }: GenericTableRowProps) => {
     const rowValues = Object.entries(row)
 
-
     const handleEdit = async (row: Entity) => {
         console.log(row)
     }
     const handleDelete = async (row: Entity) => {
         console.log(row)
     }
-
 
     return (
         <TableRow>
