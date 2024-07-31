@@ -12,6 +12,7 @@ import * as restaurantThunks from '../../redux/chunks/restaurant/restaurant.thun
 import * as dishThunks from '../../redux/chunks/dish/dish.thunks'
 import { AppDispatch } from '../../redux/store/store';
 import ChefForm from '../chefForm/ChefForm';
+import RestaurantForm from '../restaurantForm/RestaurantForm';
 // import RestaurantForm from '../restaurantForm/RestaurantForm';
 
 
@@ -26,8 +27,8 @@ const FormModal = ({ entity }: ModalProps) => {
     const dispatch = useDispatch<AppDispatch>()
 
     const restaurants = useSelector((state: RootState) => state.restaurants.restaurants)
-    // const dishes = useSelector((state: RootState) => state.dishes.dishes)
-    // const chefs = useSelector((state: RootState) => state.chefs.chefs)
+    const dishes = useSelector((state: RootState) => state.dishes.dishes)
+    const chefs = useSelector((state: RootState) => state.chefs.chefs)
 
     useEffect(() => {
         dispatch(restaurantThunks.getAllRestaurants())
@@ -91,7 +92,7 @@ const FormModal = ({ entity }: ModalProps) => {
                         Add {entity}
                     </Typography>
                     {entity === 'chef' && <ChefForm restaurants={restaurants} handleSubmit={handleSubmit} />}
-                    {/* {entity === 'restaurant' && <RestaurantForm chefs={chefs} handleSubmit={handleSubmit} dishes={dishes} />} */}
+                    {entity === 'restaurant' && <RestaurantForm chefs={chefs} handleSubmit={handleSubmit} dishes={dishes} />}
                 </StyledModal>
             </Modal>
         </div>

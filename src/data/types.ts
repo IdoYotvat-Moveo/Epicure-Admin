@@ -40,7 +40,7 @@ export type Dish = {
 export type Restaurant = {
     _id?:string
     name: string
-    chef?: Chef
+    chef?: Chef | string | null
     image: string
     rating: number
     dishes: string[]

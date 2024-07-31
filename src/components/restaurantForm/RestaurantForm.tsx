@@ -7,7 +7,6 @@ interface ChefFormProps {
     chefs: Chef[]
     dishes: Dish[]
     handleSubmit: (data: Chef | Restaurant | Dish) => Promise<void>
-    // restaurant: Restaurant
 }
 
 
@@ -22,34 +21,21 @@ const RestaurantForm = ({ chefs, handleSubmit, dishes }: ChefFormProps) => {
         signatureDish: ''
     })
 
-
-    const getChefObjectIdByName = (name: string) => {
-        const chef = chefs.find(chef => chef.name === name);
-        return chef ? chef._id : '';
-    };
-
-    // Function to get the ObjectId of a Dish by title
-    const getDishObjectIdByTitle = (title: string) => {
-        const dish = dishes.find(dish => dish.title === title);
-        return dish ? dish._id : '';
-    }
-
-
-    const handleChange = (ev: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-        const { name, value } = ev.target;
+    const handleChange = (ev: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement> | SelectChangeEvent<string>) => {
+        const { name, value } = ev.target
         setFormData(prevFormData => ({
             ...prevFormData,
             [name]: value
-        }));
+        }))
     }
 
 
     const handleSelectChange = (ev: SelectChangeEvent<string[]>) => {
-        const { value } = ev.target
-        setFormData({
-            ...formData,
-            dishes: value as string[]
-        })
+        const { name, value } = ev.target
+        setFormData(prevFormData => ({
+            ...prevFormData,
+            [name]: value as string[]
+        }))
     }
 
     const handleSwitchChange = (ev: React.ChangeEvent<HTMLInputElement>) => {
@@ -63,7 +49,7 @@ const RestaurantForm = ({ chefs, handleSubmit, dishes }: ChefFormProps) => {
 
     const submitHandler = async (ev: React.FormEvent) => {
         ev.preventDefault()
-        // await handleSubmit(formData)
+        await handleSubmit(formData)
     }
 
     return (
@@ -86,12 +72,12 @@ const RestaurantForm = ({ chefs, handleSubmit, dishes }: ChefFormProps) => {
             />
             <InputLabel id="chef">Chef</InputLabel>
             <Select
+                name="chef" // Add name attribute
                 labelId="chef"
                 id="chef-select"
                 value={formData.chef}
-                // onChange={handleChange}
+                onChange={handleChange} // Use handleChange for single select
                 input={<OutlinedInput label="Chef" />}
-            // renderValue={(selected) => selected}
             >
                 {chefs.map((chef) => (
                     <MenuItem key={chef._id} value={chef.name}>
@@ -101,11 +87,12 @@ const RestaurantForm = ({ chefs, handleSubmit, dishes }: ChefFormProps) => {
             </Select>
             <InputLabel id="dishes">Dishes</InputLabel>
             <Select
+                name="dishes" // Add name attribute
                 labelId="dishes"
                 id="dishes-select"
                 multiple
                 value={formData.dishes}
-                onChange={handleSelectChange}
+                onChange={handleSelectChange} // Use handleSelectChange for multi-select
                 input={<OutlinedInput label="Dishes" />}
                 renderValue={(selected) => (selected as string[]).join(', ')}
             >

@@ -1,6 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit"
 import * as restaurantService from '../../../services/restaurant.service'
 import { Restaurant, UpdatePayload, AddPayload, RemovePayload } from "../../../data/types"
+import { RootState } from "../../store/root-reducer"
 
 export const getAllRestaurants = createAsyncThunk<Restaurant[]>(
   'restaurant/getAll',
@@ -28,9 +29,22 @@ export const updateRestaurant = createAsyncThunk<Restaurant, UpdatePayload<Resta
 
 export const addRestaurant = createAsyncThunk<Restaurant, AddPayload<Restaurant>>(
   'restaurant/add',
-  async ({ data }, { rejectWithValue }) => {
+  async ({ data }, { getState, rejectWithValue }) => {
     try {
-      return await restaurantService.addRestaurant(data)
+      const state = getState() as RootState
+      const dishesId = data.dishes?.map(dishName => {
+        const dish = state.dishes.dishes.find(dish => dish.title === dishName)
+        return dish?._id || null
+      }).filter((id): id is string => id !== null)
+
+      const chefId = data.chef ?
+        state.chefs.chefs.find(chef => chef.name === data.chef)?._id || null
+        : null
+      const restaurantData: Restaurant = {
+        ...data, dishes: dishesId, chef: chefId
+      }
+
+      return await restaurantService.addRestaurant(restaurantData)
     } catch (err: any) {
       console.log('restaurant thunks=> could not add restaurant', err)
       return rejectWithValue(err.response?.data || err.message)

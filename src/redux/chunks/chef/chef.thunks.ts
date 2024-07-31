@@ -29,19 +29,6 @@ export const updateChef = createAsyncThunk<Chef, UpdatePayload<Chef>>(
   }
 )
 
-//todo convert chef data to db schemes before submitting
-// export const addChef = createAsyncThunk<Chef, AddPayload<Chef>>(
-//   'chefs/add',
-//   async ({ data }, { rejectWithValue }) => {
-//     try {
-//       return await chefService.addChef(data)
-//     } catch (err: any) {
-//       console.log('chef thunks=> could not add chef', err)
-//       return rejectWithValue(err.response?.data || err.message)
-//     }
-//   }
-// )
-
 export const addChef = createAsyncThunk<Chef, AddPayload<Chef>>(
   'chefs/add',
   async ({ data }, { getState, rejectWithValue }) => {
@@ -49,14 +36,13 @@ export const addChef = createAsyncThunk<Chef, AddPayload<Chef>>(
       const state = getState() as RootState
       const restaurantIds = data.restaurants?.map((restaurantName) => {
         const restaurant = state.restaurants.restaurants.find(rest => rest.name === restaurantName)
-        return restaurant?._id || null;
+        return restaurant?._id || null
       }).filter((id): id is string => id !== null)
 
       const chefData: Chef = {
         ...data,
         restaurants: restaurantIds,
-      };
-      console.log('chefData:',chefData)
+      }
       return await chefService.addChef(chefData)
     } catch (err: any) {
       console.log('chef thunks => could not add chef', err)
@@ -64,8 +50,6 @@ export const addChef = createAsyncThunk<Chef, AddPayload<Chef>>(
     }
   }
 )
-
-
 
 export const removeChef = createAsyncThunk<Chef, RemovePayload>(
   'chefs/remove',

@@ -30,7 +30,7 @@ const ChefForm = ({ restaurants,handleSubmit }: ChefFormProps) => {
         }
     }
     
-    const handleSelectChange = (ev: SelectChangeEvent<Restaurant[]>) => {
+    const handleSelectChange = (ev: SelectChangeEvent<Restaurant[] | string[]>) => {
         const { value } = ev.target;
         setFormData({
             ...formData,
