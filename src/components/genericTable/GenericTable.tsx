@@ -68,14 +68,13 @@ const GenericTable = ({ entity }: GenericTableProps) => {
 
   const handleEdit = (row: Entity) => {
     setOpen(true)
-    console.log(row);
     setInitialData(row)
 
   }
 
   const handleDelete = async (row: Entity) => {
     if (!row._id) {
-      console.error('No ID provided for deletion');
+      console.error('No ID provided for deletion')
       return;
   }
     try {

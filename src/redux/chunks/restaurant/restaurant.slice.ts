@@ -28,7 +28,9 @@ const restaurantSlice = createSlice({
         state.status = 'succeeded'
         state.restaurants = action.payload.map((res) => ({
           ...res,
-          dishes: res.dishes?.map(dish => dish.title)
+          chef: res.chef?.name || '',
+          dishes: res.dishes?.map(dish => dish.title) || [],
+          signatureDish: res.signatureDish?.title || ''
         }))
       })
       .addCase(getAllRestaurants.rejected, (state, action) => {

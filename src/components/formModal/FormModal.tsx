@@ -79,7 +79,6 @@ const FormModal = ({ entity, open, setOpen, initialData,setInitialData }: ModalP
         }
     }
 
-
     return (
         <div>
             <Button onClick={handleOpen}>
@@ -92,8 +91,9 @@ const FormModal = ({ entity, open, setOpen, initialData,setInitialData }: ModalP
                 aria-describedby="modal-modal-description"
             >
                 <StyledModal>
-                    <Typography id="modal-modal-title" variant="h6" component="h2">
-                        Add {entity}
+                    <Typography id="modal-modal-title" variant="h6" component="h2" sx={{marginBlockEnd:5}}>
+                       {!initialData && `Add ${entity}`}
+                       {initialData && `edit ${entity}`}
                     </Typography>
                     {entity === 'chef' && <ChefForm restaurants={restaurants} handleSubmit={handleSubmit} initialData={initialData as Chef} handleClose={handleClose} />}
                     {entity === 'restaurant' && <RestaurantForm chefs={chefs} handleSubmit={handleSubmit} dishes={dishes} initialData={initialData as Restaurant} handleClose={handleClose} />}

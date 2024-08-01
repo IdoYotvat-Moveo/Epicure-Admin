@@ -24,11 +24,11 @@ const RestaurantForm = ({ chefs, handleSubmit, dishes, initialData, handleClose 
     })
 
     const handleChange = (ev: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement> | SelectChangeEvent<string>) => {
-        const { name, value } = ev.target
+        const { name, value } = ev.target;
         setFormData(prevFormData => ({
             ...prevFormData,
             [name]: value
-        }))
+        }));
     }
 
 
@@ -62,6 +62,8 @@ const RestaurantForm = ({ chefs, handleSubmit, dishes, initialData, handleClose 
         await handleSubmit(formData)
     }
 
+    console.log(formData.signatureDish)
+    
     return (
         <StyledForm onSubmit={submitHandler} onBlur={() => handleClose}>
             <TextField
@@ -132,7 +134,7 @@ const RestaurantForm = ({ chefs, handleSubmit, dishes, initialData, handleClose 
                 name="signatureDish"
                 labelId="signatureDish"
                 id="signatureDish-select"
-                value={formData.signatureDish || ''}
+                value={formData.signatureDish as string}
                 onChange={handleChange}
                 input={<OutlinedInput label="SignatureDish" />}
             >

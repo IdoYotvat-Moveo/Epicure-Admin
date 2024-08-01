@@ -11,7 +11,7 @@ interface DishFormProps {
 
 }
 
-const DishForm = ({ restaurants, handleSubmit, initialData,handleClose }: DishFormProps) => {
+const DishForm = ({ restaurants, handleSubmit, initialData, handleClose }: DishFormProps) => {
     const [formData, setFormData] = useState(initialData || {
         title: '',
         image: '',
@@ -57,8 +57,10 @@ const DishForm = ({ restaurants, handleSubmit, initialData,handleClose }: DishFo
         await handleSubmit(formData)
     }
 
+    console.log(formData.restaurant);
+    
     return (
-        <StyledForm onSubmit={submitHandler} onBlur={()=>handleClose}>
+        <StyledForm onSubmit={submitHandler} onBlur={() => handleClose}>
             <TextField
                 name="title"
                 value={formData.title}
@@ -85,6 +87,7 @@ const DishForm = ({ restaurants, handleSubmit, initialData,handleClose }: DishFo
             />
             <InputLabel id="restaurant">Restaurant</InputLabel>
             <Select
+                required={true}
                 name="restaurant"
                 labelId="restaurant"
                 id="restaurant-select"
