@@ -12,7 +12,7 @@ interface RestaurantFormProps {
 }
 
 
-const RestaurantForm = ({ chefs, handleSubmit, dishes, initialData,handleClose }: RestaurantFormProps) => {
+const RestaurantForm = ({ chefs, handleSubmit, dishes, initialData, handleClose }: RestaurantFormProps) => {
     const [formData, setFormData] = useState<Restaurant>(initialData || {
         name: '',
         chef: '',
@@ -61,7 +61,7 @@ const RestaurantForm = ({ chefs, handleSubmit, dishes, initialData,handleClose }
     }
 
     return (
-        <StyledForm onSubmit={submitHandler} onBlur={()=>handleClose}>
+        <StyledForm onSubmit={submitHandler} onBlur={() => handleClose}>
             <TextField
                 name="name"
                 value={formData.name}

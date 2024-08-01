@@ -68,8 +68,7 @@ const GenericTable = ({ entity }: GenericTableProps) => {
 
   const handleEdit = (row: Entity) => {
     setOpen(true)
-    // if (entity === 'chef') {
-    // }
+    console.log(row);
     setInitialData(row)
 
   }

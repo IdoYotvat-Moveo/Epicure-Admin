@@ -26,7 +26,10 @@ const restaurantSlice = createSlice({
       })
       .addCase(getAllRestaurants.fulfilled, (state, action: PayloadAction<Restaurant[]>) => {
         state.status = 'succeeded'
-        state.restaurants = action.payload
+        state.restaurants = action.payload.map((res) => ({
+          ...res,
+          dishes: res.dishes?.map(dish => dish.title)
+        }))
       })
       .addCase(getAllRestaurants.rejected, (state, action) => {
         state.status = 'failed'
