@@ -1,7 +1,7 @@
 import { TableCell, TableRow } from '@mui/material'
 import DeleteIcon from '@mui/icons-material/Delete'
 import EditIcon from '@mui/icons-material/Edit'
-import {Entity } from '../../data/types'
+import { Entity } from '../../data/types'
 import * as utilService from '../../services/utils'
 import { StyledActionBtn } from './styles'
 
@@ -9,17 +9,12 @@ import { StyledActionBtn } from './styles'
 
 interface GenericTableRowProps {
     row: Entity;
+    onEdit: (row: Entity) => void
+    onDelete: (row: Entity) => void
 }
 
-const GenericTableRow = ({ row }: GenericTableRowProps) => {
+const GenericTableRow = ({ row,onDelete,onEdit }: GenericTableRowProps) => {
     const rowValues = Object.entries(row)
-
-    const handleEdit = async (row: Entity) => {
-        console.log(row)
-    }
-    const handleDelete = async (row: Entity) => {
-        console.log(row)
-    }
 
     return (
         <TableRow>
@@ -29,12 +24,12 @@ const GenericTableRow = ({ row }: GenericTableRowProps) => {
                 </TableCell>
             ))}
             <TableCell align="right">
-                <StyledActionBtn onClick={() => handleEdit(row)}>
+                <StyledActionBtn onClick={() => onEdit(row)}>
                     <EditIcon />
                 </StyledActionBtn>
             </TableCell>
             <TableCell align="right">
-                <StyledActionBtn onClick={() => handleDelete(row)}>
+                <StyledActionBtn onClick={() => onDelete(row)}>
                     <DeleteIcon />
                 </StyledActionBtn>
             </TableCell>

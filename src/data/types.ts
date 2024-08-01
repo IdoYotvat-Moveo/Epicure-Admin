@@ -26,7 +26,7 @@ export enum EiconMeaning {
 }
 
 export type Dish = {
-    _id?:string
+    _id?: string
     title: string
     image?: string
     ingredients: string[]
@@ -38,13 +38,13 @@ export type Dish = {
 
 
 export type Restaurant = {
-    _id?:string
+    _id?: string
     name: string
-    chef?: Chef | string | null
+    chef?: Chef | string | null | undefined
     image: string
     rating: number
     dishes: string[]
-    signatureDish?: string | null
+    signatureDish?: string | undefined | null
     isPopular?: boolean
 }
 
@@ -53,7 +53,7 @@ export type Chef = {
     name: string
     bio: string
     image?: string
-    restaurants?: Restaurant[] | string []
+    restaurants?: Restaurant[] | string[]
     isChefOfTheWeek: boolean
 }
 

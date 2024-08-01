@@ -2,20 +2,20 @@ import { FormControlLabel, InputLabel, MenuItem, Select, SelectChangeEvent, Swit
 import { Chef, Dish, Restaurant } from "../../data/types"
 import { useState } from "react"
 import { StyledForm, StyledSubmitBtn } from "./style"
-
 interface ChefFormProps {
     restaurants: Restaurant[]
     handleSubmit: (data: Chef | Restaurant | Dish) => Promise<void>
+    initialData?: Chef
+    handleClose: () => void
 }
 
-
-const ChefForm = ({ restaurants,handleSubmit }: ChefFormProps) => {
-    const [formData, setFormData] = useState<Chef>({
+const ChefForm = ({ restaurants, handleSubmit, initialData,handleClose }: ChefFormProps) => {
+    const [formData, setFormData] = useState<Chef>(initialData || {
         name: '',
         bio: '',
         image: '',
         restaurants: [],
-        isChefOfTheWeek: false
+        isChefOfTheWeek: false,
     })
 
 
@@ -29,12 +29,12 @@ const ChefForm = ({ restaurants,handleSubmit }: ChefFormProps) => {
             })
         }
     }
-    
+
     const handleSelectChange = (ev: SelectChangeEvent<Restaurant[] | string[]>) => {
-        const { value } = ev.target;
+        const { value } = ev.target
         setFormData({
             ...formData,
-            restaurants: value as Restaurant[]
+            restaurants: value as string[]
         });
     }
 
@@ -43,18 +43,17 @@ const ChefForm = ({ restaurants,handleSubmit }: ChefFormProps) => {
         setFormData({
             ...formData,
             [name]: checked
-        });
+        })
     }
 
     const submitHandler = async (ev: React.FormEvent) => {
         ev.preventDefault()
-        // console.log(formData)
-        //todo add chef =>  data is good => implement moving to DB
         await handleSubmit(formData)
     }
 
+    console.log(formData.restaurants)
     return (
-        <StyledForm onSubmit={submitHandler}>
+        <StyledForm onSubmit={submitHandler} onBlur={() => handleClose}>
             <TextField name="name" value={formData.name} onChange={handleChange} label="Name" variant="outlined" autoComplete='off' />
             <TextField
                 name="bio"

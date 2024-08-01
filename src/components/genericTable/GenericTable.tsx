@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { shallowEqual, useDispatch, useSelector } from 'react-redux'
 import TableBody from '@mui/material/TableBody'
 import TableCell from '@mui/material/TableCell'
@@ -14,7 +14,7 @@ import * as dishThunks from '../../redux/chunks/dish/dish.thunks'
 import * as chefThunks from '../../redux/chunks/chef/chef.thunks'
 import * as restaurantThunks from '../../redux/chunks/restaurant/restaurant.thunks'
 import FormModal from '../formModal/FormModal'
-import { EntityType } from '../../data/types'
+import { Chef, Dish, Entity, EntityType, Restaurant } from '../../data/types'
 
 
 interface GenericTableProps {
@@ -22,7 +22,10 @@ interface GenericTableProps {
 }
 
 const GenericTable = ({ entity }: GenericTableProps) => {
+  const [open, setOpen] = useState(false)
+  const [initialData, setInitialData] = useState<Chef | Restaurant | Dish | null>(null)
   const dispatch = useDispatch<AppDispatch>()
+
   const data = useSelector((state: RootState) => {
     switch (entity) {
       case 'chef':
@@ -63,13 +66,26 @@ const GenericTable = ({ entity }: GenericTableProps) => {
     }
   }
 
-  
+  const handleEdit = (row: Entity) => {
+    setOpen(true)
+    // if (entity === 'chef') {
+    // }
+    setInitialData(row)
+
+  }
+
+  const handleDelete = async (row: Entity) => {
+    //todo Handle delete logic
+    console.log('Deleting:', row)
+  }
+
+
   if (!data || !data.length) return <div className="loader"></div>
   const headers = Object.keys(data[0])
 
   return (
     (<>
-      <FormModal entity={entity} />
+      <FormModal entity={entity} open={open} setOpen={setOpen} initialData={initialData} setInitialData={setInitialData} />
       <TableContainer component={Paper}>
         <StyledTable aria-label="simple table">
           <TableHead>
@@ -81,7 +97,7 @@ const GenericTable = ({ entity }: GenericTableProps) => {
           </TableHead>
           <TableBody>
             {data.map((row, index) => (
-              <GenericTableRow key={index} row={row} />
+              <GenericTableRow key={index} row={row} onEdit={handleEdit} onDelete={handleDelete} />
             ))}
           </TableBody>
         </StyledTable>

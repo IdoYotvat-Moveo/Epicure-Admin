@@ -7,11 +7,13 @@ interface RestaurantFormProps {
     chefs: Chef[]
     dishes: Dish[]
     handleSubmit: (data: Chef | Restaurant | Dish) => Promise<void>
+    initialData?: Restaurant
+    handleClose: () => void
 }
 
 
-const RestaurantForm = ({ chefs, handleSubmit, dishes }: RestaurantFormProps) => {
-    const [formData, setFormData] = useState({
+const RestaurantForm = ({ chefs, handleSubmit, dishes, initialData,handleClose }: RestaurantFormProps) => {
+    const [formData, setFormData] = useState<Restaurant>(initialData || {
         name: '',
         chef: '',
         image: '',
@@ -59,7 +61,7 @@ const RestaurantForm = ({ chefs, handleSubmit, dishes }: RestaurantFormProps) =>
     }
 
     return (
-        <StyledForm onSubmit={submitHandler}>
+        <StyledForm onSubmit={submitHandler} onBlur={()=>handleClose}>
             <TextField
                 name="name"
                 value={formData.name}
@@ -81,8 +83,8 @@ const RestaurantForm = ({ chefs, handleSubmit, dishes }: RestaurantFormProps) =>
                 name="chef"
                 labelId="chef"
                 id="chef-select"
-                value={formData.chef}
-                onChange={handleChange} 
+                value={formData.chef as string}
+                onChange={handleChange}
                 input={<OutlinedInput label="Chef" />}
             >
                 {chefs.map((chef) => (
@@ -93,7 +95,7 @@ const RestaurantForm = ({ chefs, handleSubmit, dishes }: RestaurantFormProps) =>
             </Select>
             <InputLabel id="dishes">Dishes</InputLabel>
             <Select
-                name="dishes" 
+                name="dishes"
                 labelId="dishes"
                 id="dishes-select"
                 multiple
@@ -125,11 +127,11 @@ const RestaurantForm = ({ chefs, handleSubmit, dishes }: RestaurantFormProps) =>
             />
             <InputLabel id="signatureDish">Signature Dish</InputLabel>
             <Select
-                name="signatureDish" 
+                name="signatureDish"
                 labelId="signatureDish"
                 id="signatureDish-select"
-                value={formData.signatureDish}
-                onChange={handleChange} 
+                value={formData.signatureDish || ''}
+                onChange={handleChange}
                 input={<OutlinedInput label="SignatureDish" />}
             >
                 {dishes.map((dish) => (

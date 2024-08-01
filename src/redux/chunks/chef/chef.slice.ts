@@ -24,10 +24,21 @@ const chefSlice = createSlice({
       .addCase(getAllChefs.pending, (state) => {
         state.status = 'loading'
       })
+      // .addCase(getAllChefs.fulfilled, (state, action: PayloadAction<Chef[]>) => {
+      //   state.status = 'succeeded'
+      //   console.log(action.payload)
+      //   state.chefs = action.payload
+      // })
       .addCase(getAllChefs.fulfilled, (state, action: PayloadAction<Chef[]>) => {
-        state.status = 'succeeded'
-        state.chefs = action.payload
-      })
+        state.status = 'succeeded';
+        
+        // Transform the chefs array to include restaurant names
+        state.chefs = action.payload.map(chef => ({
+            ...chef,
+            restaurants: chef.restaurants?.map(res => res.name)
+        }))
+        console.log(state.chefs)
+    })
       .addCase(getAllChefs.rejected, (state, action) => {
         state.status = 'failed'
         state.error = action.error.message || 'An error occurred'

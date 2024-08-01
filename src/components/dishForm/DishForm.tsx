@@ -6,11 +6,13 @@ import { FormControlLabel, InputLabel, MenuItem, OutlinedInput, Select, SelectCh
 interface DishFormProps {
     restaurants: Restaurant[]
     handleSubmit: (data: Chef | Restaurant | Dish) => Promise<void>
+    initialData?: Dish
+    handleClose: () => void
 
 }
 
-const DishForm = ({ restaurants, handleSubmit }: DishFormProps) => {
-    const [formData, setFormData] = useState({
+const DishForm = ({ restaurants, handleSubmit, initialData,handleClose }: DishFormProps) => {
+    const [formData, setFormData] = useState(initialData || {
         title: '',
         image: '',
         ingredients: [] as string[],
@@ -56,7 +58,7 @@ const DishForm = ({ restaurants, handleSubmit }: DishFormProps) => {
     }
 
     return (
-        <StyledForm onSubmit={submitHandler}>
+        <StyledForm onSubmit={submitHandler} onBlur={()=>handleClose}>
             <TextField
                 name="title"
                 value={formData.title}
@@ -86,7 +88,7 @@ const DishForm = ({ restaurants, handleSubmit }: DishFormProps) => {
                 name="restaurant"
                 labelId="restaurant"
                 id="restaurant-select"
-                value={formData.restaurant}
+                value={formData.restaurant as string}
                 onChange={handleChange}
                 input={<OutlinedInput label="Restaurant" />}
             >
@@ -102,7 +104,7 @@ const DishForm = ({ restaurants, handleSubmit }: DishFormProps) => {
                 labelId="icons"
                 id="icons-select"
                 multiple
-                value={formData.icons}
+                value={formData.icons as EiconMeaning[]}
                 onChange={handleChange}
                 input={<OutlinedInput label="Icons" />}
                 renderValue={(selected) => (selected as EiconMeaning[]).join(', ')}
