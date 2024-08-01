@@ -9,13 +9,17 @@ interface ChefFormProps {
     handleClose: () => void
 }
 
-const ChefForm = ({ restaurants, handleSubmit, initialData,handleClose }: ChefFormProps) => {
+const ChefForm = ({ restaurants, handleSubmit, initialData, handleClose }: ChefFormProps) => {
     const [formData, setFormData] = useState<Chef>(initialData || {
         name: '',
         bio: '',
         image: '',
         restaurants: [],
         isChefOfTheWeek: false,
+    })
+    const [errors, setErrors] = useState({
+        name: false,
+        bio: false,
     })
 
 
@@ -27,6 +31,19 @@ const ChefForm = ({ restaurants, handleSubmit, initialData,handleClose }: ChefFo
                 ...formData,
                 [field]: value
             })
+            if (field === "name" && value) {
+                setErrors(prevErrors => ({
+                    ...prevErrors,
+                    name: false
+                }))
+            }
+
+            if (field === "bio" && value) {
+                setErrors(prevErrors => ({
+                    ...prevErrors,
+                    bio: false
+                }))
+            }
         }
     }
 
@@ -38,6 +55,17 @@ const ChefForm = ({ restaurants, handleSubmit, initialData,handleClose }: ChefFo
         });
     }
 
+    const validateForm = () => {
+        const newErrors = {
+            name: !formData.name,
+            bio: !formData.bio,
+        }
+        setErrors(newErrors)
+
+        return !Object.values(newErrors).some(error => error)
+    }
+
+
     const handleSwitchChange = (ev: React.ChangeEvent<HTMLInputElement>) => {
         const { name, checked } = ev.target
         setFormData({
@@ -48,12 +76,24 @@ const ChefForm = ({ restaurants, handleSubmit, initialData,handleClose }: ChefFo
 
     const submitHandler = async (ev: React.FormEvent) => {
         ev.preventDefault()
+        if (!validateForm()) {
+            return
+        }
         await handleSubmit(formData)
     }
 
     return (
         <StyledForm onSubmit={submitHandler} onBlur={() => handleClose}>
-            <TextField name="name" value={formData.name} onChange={handleChange} label="Name" variant="outlined" autoComplete='off' />
+            <TextField
+                name="name"
+                value={formData.name}
+                onChange={handleChange}
+                label="Name"
+                variant="outlined"
+                autoComplete='off'
+                error={errors.name}
+                helperText={errors.name ? "Name is required" : ""}
+            />
             <TextField
                 name="bio"
                 value={formData.bio}
@@ -62,6 +102,8 @@ const ChefForm = ({ restaurants, handleSubmit, initialData,handleClose }: ChefFo
                 multiline
                 rows={4}
                 variant="outlined"
+                error={errors.bio}
+                helperText={errors.bio ? "Bio is required" : ""}
             />
             <TextField name="image" value={formData.image} onChange={handleChange} label="image" variant="outlined" autoComplete='off' />
             <InputLabel id="restaurant">Restaurant</InputLabel>
