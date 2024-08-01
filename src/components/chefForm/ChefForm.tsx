@@ -52,7 +52,7 @@ const ChefForm = ({ restaurants, handleSubmit, initialData, handleClose }: ChefF
         setFormData({
             ...formData,
             restaurants: value as string[]
-        });
+        })
     }
 
     const validateForm = () => {

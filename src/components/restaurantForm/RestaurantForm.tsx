@@ -1,6 +1,6 @@
 import { FormControlLabel, FormHelperText, InputLabel, MenuItem, OutlinedInput, Rating, Select, SelectChangeEvent, Switch, TextField } from "@mui/material"
 import { Chef, Dish, Restaurant } from "../../data/types"
-import { useState } from "react"
+import { useMemo, useState } from "react"
 import { StyledForm, StyledSubmitBtn } from "../chefForm/style"
 
 interface RestaurantFormProps {
@@ -92,7 +92,10 @@ const RestaurantForm = ({ chefs, handleSubmit, dishes, initialData, handleClose 
         await handleSubmit(formData)
     }
 
-    console.log(formData.signatureDish)
+    const filteredSignatureDishes = useMemo(() => {
+        return dishes.filter(dish => formData.dishes.includes(dish.title))
+    }, [formData.dishes, dishes])
+
     
     return (
         <StyledForm onSubmit={submitHandler} onBlur={() => handleClose}>
@@ -174,7 +177,7 @@ const RestaurantForm = ({ chefs, handleSubmit, dishes, initialData, handleClose 
                 onChange={handleChange}
                 input={<OutlinedInput label="SignatureDish" />}
             >
-                {dishes.map((dish) => (
+                {filteredSignatureDishes.map((dish) => (
                     <MenuItem key={dish._id} value={dish.title}>
                         {dish.title}
                     </MenuItem>
