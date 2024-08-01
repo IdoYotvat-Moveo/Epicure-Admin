@@ -39,7 +39,7 @@ const RestaurantForm = ({ chefs, handleSubmit, dishes, initialData, handleClose 
         setFormData(prevFormData => ({
             ...prevFormData,
             [name]: uniqueValues
-        }));
+        }))
     }
 
     const handleSwitchChange = (ev: React.ChangeEvent<HTMLInputElement>) => {
@@ -102,7 +102,7 @@ const RestaurantForm = ({ chefs, handleSubmit, dishes, initialData, handleClose 
                 id="dishes-select"
                 multiple
                 value={formData.dishes}
-                onChange={handleSelectChange} // Use handleSelectChange for multi-select
+                onChange={handleSelectChange}
                 input={<OutlinedInput label="Dishes" />}
                 renderValue={(selected) => (selected as string[]).join(', ')}
             >

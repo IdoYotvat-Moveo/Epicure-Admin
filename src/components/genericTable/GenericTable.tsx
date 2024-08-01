@@ -74,7 +74,29 @@ const GenericTable = ({ entity }: GenericTableProps) => {
   }
 
   const handleDelete = async (row: Entity) => {
-    //todo Handle delete logic
+    if (!row._id) {
+      console.error('No ID provided for deletion');
+      return;
+  }
+    try {
+      switch (entity.toLowerCase()) {
+        case 'chef':
+          dispatch(chefThunks.removeChef({ id: row._id }))
+          break;
+        case 'restaurant':
+          dispatch(restaurantThunks.removeRestaurant({ id: row._id }))
+          break;
+        case 'dish':
+          dispatch(dishThunks.removeDish({ id: row._id }))
+          break;
+        default:
+          console.error('Unknown entity')
+          return
+      }
+    } catch (error) {
+      console.log('genericTable => cannot remove entity =>', error)
+
+    }
     console.log('Deleting:', row)
   }
 
