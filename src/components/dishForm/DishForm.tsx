@@ -1,7 +1,7 @@
 import { useState } from "react"
 import { Chef, Dish, EiconMeaning, Restaurant } from "../../data/types"
 import { StyledForm, StyledSubmitBtn } from "../chefForm/style"
-import { FormControlLabel, InputLabel, MenuItem, OutlinedInput, Select, SelectChangeEvent, Switch, TextField } from "@mui/material"
+import { FormControlLabel, FormHelperText, InputLabel, MenuItem, OutlinedInput, Select, SelectChangeEvent, Switch, TextField } from "@mui/material"
 
 interface DishFormProps {
     restaurants: Restaurant[]
@@ -21,7 +21,9 @@ const DishForm = ({ restaurants, handleSubmit, initialData, handleClose }: DishF
         icons: [] as EiconMeaning[],
         isActive: true
     })
-
+    const [errors, setErrors] = useState({
+        restaurant: false
+    })
     const handleChange = (ev: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement> | SelectChangeEvent<string> | SelectChangeEvent<string[]>) => {
         const { name, value } = ev.target;
 
@@ -40,6 +42,12 @@ const DishForm = ({ restaurants, handleSubmit, initialData, handleClose }: DishF
                 ...prevFormData,
                 [name]: value
             }))
+            if (name === "restaurant" && value) {
+                setErrors(prevErrors => ({
+                    ...prevErrors,
+                    restaurant: false
+                }))
+            }
         }
     }
 
@@ -54,6 +62,13 @@ const DishForm = ({ restaurants, handleSubmit, initialData, handleClose }: DishF
 
     const submitHandler = async (ev: React.FormEvent) => {
         ev.preventDefault()
+        if (!formData.restaurant) {
+            setErrors(prevErrors => ({
+                ...prevErrors,
+                restaurant: true
+            }))
+            return
+        }
         await handleSubmit(formData)
     }
 
@@ -87,13 +102,13 @@ const DishForm = ({ restaurants, handleSubmit, initialData, handleClose }: DishF
             />
             <InputLabel id="restaurant">Restaurant</InputLabel>
             <Select
-                required={true}
                 name="restaurant"
                 labelId="restaurant"
                 id="restaurant-select"
                 value={formData.restaurant as string}
                 onChange={handleChange}
                 input={<OutlinedInput label="Restaurant" />}
+                error={errors.restaurant}
             >
                 {restaurants.map((res) => (
                     <MenuItem key={res._id} value={res.name}>
@@ -101,6 +116,9 @@ const DishForm = ({ restaurants, handleSubmit, initialData, handleClose }: DishF
                     </MenuItem>
                 ))}
             </Select>
+            {errors.restaurant && (
+                <FormHelperText error>Please select a restaurant</FormHelperText>
+            )}
             <InputLabel id="icons">Tags</InputLabel>
             <Select
                 name="icons"
