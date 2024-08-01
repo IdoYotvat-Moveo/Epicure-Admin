@@ -2,9 +2,9 @@
 export const formatValue = (key: string, value: any): string => {
     if (Array.isArray(value)) {
       if (key === 'dishes') {
-        return value.map((dish) => dish.title).join(', ')
+        return value.join(', ')
       } else if (key === 'restaurants') {
-        return value.map((restaurant) => restaurant.name).join(', ')
+        return value.join(', ')
       }
       return value.map((item) => JSON.stringify(item)).join(', ')
     }

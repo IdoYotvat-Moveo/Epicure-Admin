@@ -33,11 +33,13 @@ const RestaurantForm = ({ chefs, handleSubmit, dishes, initialData, handleClose 
 
 
     const handleSelectChange = (ev: SelectChangeEvent<string[]>) => {
-        const { name, value } = ev.target
+        const { name, value } = ev.target;
+        const uniqueValues = Array.from(new Set(value as string[]));
+    
         setFormData(prevFormData => ({
             ...prevFormData,
-            [name]: value as string[]
-        }))
+            [name]: uniqueValues
+        }));
     }
 
     const handleSwitchChange = (ev: React.ChangeEvent<HTMLInputElement>) => {
