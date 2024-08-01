@@ -1,6 +1,6 @@
 export type CardType = {
-    title: string;
-    img: string;
+    title: string
+    img: string
     type?: string
     content?: Content
 }
@@ -12,8 +12,8 @@ export type IconProps = {
 
 export type Content = {
     type?: string
-    chef?: string;
-    rating?: number;
+    chef?: string
+    rating?: number
     icons?: IconProps[]
     ingredients?: string[]
     price?: number
@@ -57,19 +57,19 @@ export type Chef = {
     isChefOfTheWeek: boolean
 }
 
-export type Entity = Chef | Dish | Restaurant;
+export type Entity = Chef | Dish | Restaurant
 export type EntityType = 'chef' | 'restaurant' | 'dish'
 
 
 export interface UpdatePayload<T> {
-    id: string;
-    data: T;
+    id: string
+    data: T
 }
 export interface AddPayload<T> {
-    data: T;
+    data: T
 }
 export interface RemovePayload {
-    id: string;
+    id: string
 }
 
 

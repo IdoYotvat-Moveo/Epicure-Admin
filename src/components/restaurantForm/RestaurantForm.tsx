@@ -28,11 +28,11 @@ const RestaurantForm = ({ chefs, handleSubmit, dishes, initialData, handleClose 
     })
 
     const handleChange = (ev: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement> | SelectChangeEvent<string>) => {
-        const { name, value } = ev.target;
+        const { name, value } = ev.target
         setFormData(prevFormData => ({
             ...prevFormData,
             [name]: value
-        }));
+        }))
         if (name === "name" && value) {
             setErrors(prevErrors => ({
                 ...prevErrors,
@@ -50,9 +50,8 @@ const RestaurantForm = ({ chefs, handleSubmit, dishes, initialData, handleClose 
 
 
     const handleSelectChange = (ev: SelectChangeEvent<string[]>) => {
-        const { name, value } = ev.target;
-        const uniqueValues = Array.from(new Set(value as string[]));
-    
+        const { name, value } = ev.target
+        const uniqueValues = Array.from(new Set(value as string[]))
         setFormData(prevFormData => ({
             ...prevFormData,
             [name]: uniqueValues

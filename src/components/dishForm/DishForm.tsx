@@ -27,7 +27,7 @@ const DishForm = ({ restaurants, handleSubmit, initialData, handleClose }: DishF
         title: false
     })
     const handleChange = (ev: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement> | SelectChangeEvent<string> | SelectChangeEvent<string[]>) => {
-        const { name, value } = ev.target;
+        const { name, value } = ev.target
 
         if (name === "ingredients") {
             setFormData(prevFormData => ({
@@ -65,7 +65,7 @@ const DishForm = ({ restaurants, handleSubmit, initialData, handleClose }: DishF
         setFormData({
             ...formData,
             [name]: checked
-        });
+        })
     }
 
     const validateForm = () => {
@@ -86,8 +86,6 @@ const DishForm = ({ restaurants, handleSubmit, initialData, handleClose }: DishF
         }
         await handleSubmit(formData)
     }
-
-    console.log(formData.restaurant);
     
     return (
         <StyledForm onSubmit={submitHandler} onBlur={() => handleClose}>

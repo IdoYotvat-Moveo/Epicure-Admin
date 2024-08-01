@@ -62,7 +62,7 @@ const GenericTable = ({ entity }: GenericTableProps) => {
           return
       }
     } catch (err) {
-      console.error(`GenericTable => could not get ${entity}`, err);
+      console.error(`GenericTable => could not get ${entity}`, err)
     }
   }
 

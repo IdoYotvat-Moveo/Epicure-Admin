@@ -1,21 +1,19 @@
-import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
-import Modal from '@mui/material/Modal';
+import Button from '@mui/material/Button'
+import Typography from '@mui/material/Typography'
+import Modal from '@mui/material/Modal'
 import AddBoxSharpIcon from '@mui/icons-material/AddBoxSharp'
-import { StyledModal } from './styles';
-import { Chef, Dish, EntityType, Restaurant } from '../../data/types';
-import { Dispatch, SetStateAction, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '../../redux/store/root-reducer';
+import { StyledModal } from './styles'
+import { Chef, Dish, EntityType, Restaurant } from '../../data/types'
+import { Dispatch, SetStateAction, useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { RootState } from '../../redux/store/root-reducer'
 import * as chefThunks from '../../redux/chunks/chef/chef.thunks'
 import * as restaurantThunks from '../../redux/chunks/restaurant/restaurant.thunks'
 import * as dishThunks from '../../redux/chunks/dish/dish.thunks'
-import { AppDispatch } from '../../redux/store/store';
-import ChefForm from '../chefForm/ChefForm';
-import RestaurantForm from '../restaurantForm/RestaurantForm';
-import DishForm from '../dishForm/DishForm';
-// import RestaurantForm from '../restaurantForm/RestaurantForm';
-
+import { AppDispatch } from '../../redux/store/store'
+import ChefForm from '../chefForm/ChefForm'
+import RestaurantForm from '../restaurantForm/RestaurantForm'
+import DishForm from '../dishForm/DishForm'
 
 interface ModalProps {
     entity: EntityType

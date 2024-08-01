@@ -1,5 +1,5 @@
-import { Chef } from "../data/types";
-import { httpService } from "./http.service";
+import { Chef } from "../data/types"
+import { httpService } from "./http.service"
 
 //get
 export const getAllChefs = async (): Promise<Chef[]> => {

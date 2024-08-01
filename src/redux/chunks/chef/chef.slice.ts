@@ -26,7 +26,7 @@ const chefSlice = createSlice({
       })
 
       .addCase(getAllChefs.fulfilled, (state, action: PayloadAction<Chef[]>) => {
-        state.status = 'succeeded';
+        state.status = 'succeeded'
         state.chefs = action.payload.map(chef => ({
             ...chef,
             restaurants: chef.restaurants?.map(res => res.name)

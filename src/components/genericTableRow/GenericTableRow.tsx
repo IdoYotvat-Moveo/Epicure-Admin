@@ -8,7 +8,7 @@ import { StyledActionBtn } from './styles'
 
 
 interface GenericTableRowProps {
-    row: Entity;
+    row: Entity
     onEdit: (row: Entity) => void
     onDelete: (row: Entity) => void
 }

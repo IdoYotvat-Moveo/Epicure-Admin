@@ -1,8 +1,7 @@
-import { createAsyncThunk } from '@reduxjs/toolkit';
+import { createAsyncThunk } from '@reduxjs/toolkit'
 import * as chefService from '../../../services/chef.service'
-// import * as restaurantService from '../../../services/restaurant.service'
-import { Chef, UpdatePayload, AddPayload, RemovePayload } from '../../../data/types';
-import { RootState } from '../../store/root-reducer';
+import { Chef, UpdatePayload, AddPayload, RemovePayload } from '../../../data/types'
+import { RootState } from '../../store/root-reducer'
 
 
 export const getAllChefs = createAsyncThunk<Chef[]>(
