@@ -95,7 +95,7 @@ const RestaurantForm = ({ chefs, handleSubmit, dishes, initialData, handleClose 
         return dishes.filter(dish => formData.dishes.includes(dish.title))
     }, [formData.dishes, dishes])
 
-    
+
     return (
         <StyledForm onSubmit={submitHandler} onBlur={() => handleClose}>
             <TextField
@@ -144,8 +144,7 @@ const RestaurantForm = ({ chefs, handleSubmit, dishes, initialData, handleClose 
                 value={formData.dishes}
                 onChange={handleSelectChange}
                 input={<OutlinedInput label="Dishes" />}
-                renderValue={(selected) => (selected as string[]).join(', ')}
-            >
+                renderValue={(selected) => (selected as string[]).join(', ')}>
                 {dishes.map((dish) => (
                     <MenuItem key={dish._id} value={dish.title}>
                         {dish.title}

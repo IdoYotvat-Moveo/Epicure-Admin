@@ -16,6 +16,8 @@ interface GenericTableRowProps {
 const GenericTableRow = ({ row,onDelete,onEdit }: GenericTableRowProps) => {
     const rowValues = Object.entries(row)
 
+    console.log(rowValues);
+    
     return (
         <TableRow>
             {rowValues.map(([key, value], index) => (

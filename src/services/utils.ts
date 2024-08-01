@@ -8,6 +8,9 @@ export const formatValue = (key: string, value: any): string => {
     }
     return value.map((item) => JSON.stringify(item)).join(', ')
   }
+  if (key === 'signatureDish' && !value) {
+    return 'No signature dish'
+  }
 
   if (typeof value === 'object' && value !== null) {
     if (key === 'restaurant' && 'name' in value) {
@@ -19,11 +22,11 @@ export const formatValue = (key: string, value: any): string => {
     }
     return JSON.stringify(value)
   }
-  if (key === 'signatureDish' && !value) {
-    return 'No signature dish'
-  }
+  
   if (key === 'chef' && !value) {
     return 'N/A'
   }
   return String(value)
 }
+
+
