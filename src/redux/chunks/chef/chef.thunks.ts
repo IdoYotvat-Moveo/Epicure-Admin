@@ -19,9 +19,19 @@ export const getAllChefs = createAsyncThunk<Chef[]>(
 
 export const updateChef = createAsyncThunk<Chef, UpdatePayload<Chef>>(
   'chefs/update',
-  async ({ id, data }, { rejectWithValue }) => {
+  async ({ id, data }, { getState, rejectWithValue }) => {
     try {
-      return await chefService.updateChef(id, data)
+      const state = getState() as RootState
+      const restaurantIds = data.restaurants?.map((restaurantName) => {
+        const restaurant = state.restaurants.restaurants.find(rest => rest.name === restaurantName)
+        return restaurant?._id || null
+      }).filter((id): id is string => id !== null)
+      const chefData: Chef = {
+        ...data,
+        restaurants: restaurantIds,
+      }
+
+      return await chefService.updateChef(id, chefData)
     } catch (err: any) {
       console.log('chef thunks=> could not update chef', err)
       return rejectWithValue(err.response?.data || err.message)

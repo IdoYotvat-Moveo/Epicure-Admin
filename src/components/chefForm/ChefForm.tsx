@@ -51,7 +51,6 @@ const ChefForm = ({ restaurants, handleSubmit, initialData,handleClose }: ChefFo
         await handleSubmit(formData)
     }
 
-    console.log(formData.restaurants)
     return (
         <StyledForm onSubmit={submitHandler} onBlur={() => handleClose}>
             <TextField name="name" value={formData.name} onChange={handleChange} label="Name" variant="outlined" autoComplete='off' />
