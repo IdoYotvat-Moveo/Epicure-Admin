@@ -1,4 +1,4 @@
-import { FormControlLabel, InputLabel, MenuItem, OutlinedInput, Rating, Select, SelectChangeEvent, Switch, TextField } from "@mui/material"
+import { FormControlLabel, FormHelperText, InputLabel, MenuItem, OutlinedInput, Rating, Select, SelectChangeEvent, Switch, TextField } from "@mui/material"
 import { Chef, Dish, Restaurant } from "../../data/types"
 import { useState } from "react"
 import { StyledForm, StyledSubmitBtn } from "../chefForm/style"
@@ -22,6 +22,10 @@ const RestaurantForm = ({ chefs, handleSubmit, dishes, initialData, handleClose 
         isPopular: false,
         signatureDish: ''
     })
+    const [errors, setErrors] = useState({
+        name: false,
+        chef: false
+    })
 
     const handleChange = (ev: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement> | SelectChangeEvent<string>) => {
         const { name, value } = ev.target;
@@ -29,6 +33,19 @@ const RestaurantForm = ({ chefs, handleSubmit, dishes, initialData, handleClose 
             ...prevFormData,
             [name]: value
         }));
+        if (name === "name" && value) {
+            setErrors(prevErrors => ({
+                ...prevErrors,
+                name: false
+            }))
+        }
+
+        if (name === "chef" && value) {
+            setErrors(prevErrors => ({
+                ...prevErrors,
+                chef: false
+            }))
+        }
     }
 
 
@@ -57,8 +74,21 @@ const RestaurantForm = ({ chefs, handleSubmit, dishes, initialData, handleClose 
         }))
     }
 
+    const validateForm = () => {
+        const newErrors = {
+            name: !formData.name,
+            chef: !formData.chef
+        }
+        setErrors(newErrors)
+
+        return !Object.values(newErrors).some(error => error)
+    }
+
     const submitHandler = async (ev: React.FormEvent) => {
         ev.preventDefault()
+        if (!validateForm()) {
+            return
+        }
         await handleSubmit(formData)
     }
 
@@ -73,6 +103,8 @@ const RestaurantForm = ({ chefs, handleSubmit, dishes, initialData, handleClose 
                 label="Name"
                 variant="outlined"
                 autoComplete='off'
+                error={errors.name}
+                helperText={errors.name ? "Name is required" : ""}
             />
             <TextField
                 name="image"
@@ -90,6 +122,7 @@ const RestaurantForm = ({ chefs, handleSubmit, dishes, initialData, handleClose 
                 value={formData.chef as string}
                 onChange={handleChange}
                 input={<OutlinedInput label="Chef" />}
+                error={errors.chef}
             >
                 {chefs.map((chef) => (
                     <MenuItem key={chef._id} value={chef.name}>
@@ -97,6 +130,9 @@ const RestaurantForm = ({ chefs, handleSubmit, dishes, initialData, handleClose 
                     </MenuItem>
                 ))}
             </Select>
+            {errors.chef && (
+                <FormHelperText error>Please select a chef</FormHelperText>
+            )}
             <InputLabel id="dishes">Dishes</InputLabel>
             <Select
                 name="dishes"
