@@ -22,7 +22,9 @@ const DishForm = ({ restaurants, handleSubmit, initialData, handleClose }: DishF
         isActive: true
     })
     const [errors, setErrors] = useState({
-        restaurant: false
+        restaurant: false,
+        price: false,
+        title: false
     })
     const handleChange = (ev: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement> | SelectChangeEvent<string> | SelectChangeEvent<string[]>) => {
         const { name, value } = ev.target;
@@ -42,6 +44,12 @@ const DishForm = ({ restaurants, handleSubmit, initialData, handleClose }: DishF
                 ...prevFormData,
                 [name]: value
             }))
+            if (name === "title" && value) {
+                setErrors(prevErrors => ({
+                    ...prevErrors,
+                    title: false
+                }))
+            }
             if (name === "restaurant" && value) {
                 setErrors(prevErrors => ({
                     ...prevErrors,
@@ -60,13 +68,20 @@ const DishForm = ({ restaurants, handleSubmit, initialData, handleClose }: DishF
         });
     }
 
+    const validateForm = () => {
+        const newErrors = {
+            title: !formData.title,
+            price: formData.price <= 0,
+            restaurant: !formData.restaurant
+        }
+        setErrors(newErrors)
+
+        return !Object.values(newErrors).some(error => error)
+    }
+
     const submitHandler = async (ev: React.FormEvent) => {
         ev.preventDefault()
-        if (!formData.restaurant) {
-            setErrors(prevErrors => ({
-                ...prevErrors,
-                restaurant: true
-            }))
+        if (!validateForm()) {
             return
         }
         await handleSubmit(formData)
@@ -83,6 +98,8 @@ const DishForm = ({ restaurants, handleSubmit, initialData, handleClose }: DishF
                 label="Title"
                 variant="outlined"
                 autoComplete='off'
+                error={errors.title}
+                helperText={errors.title ? "Title is required" : ""}
             />
             <TextField
                 name="image"
@@ -99,6 +116,8 @@ const DishForm = ({ restaurants, handleSubmit, initialData, handleClose }: DishF
                 name="price"
                 value={formData.price}
                 onChange={handleChange}
+                error={errors.price}
+                helperText={errors.price ? "Price must be greater than 0" : ""}
             />
             <InputLabel id="restaurant">Restaurant</InputLabel>
             <Select
