@@ -7,8 +7,7 @@ export const getAllRestaurants = createAsyncThunk<Restaurant[]>(
   'restaurant/getAll',
   async () => {
     try {
-      const restaurants = await restaurantService.getAllRestaurants()
-      return restaurants.map(({ __v, ...rest }) => rest)
+      return await restaurantService.getAllRestaurants()
     } catch (err) {
       console.log('dish thunks=>could not get all dishes', err)
       return []

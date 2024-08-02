@@ -8,8 +8,7 @@ export const getAllChefs = createAsyncThunk<Chef[]>(
   'chefs/getAll',
   async () => {
     try {
-      const chefs = await chefService.getAllChefs()
-      return chefs.map(({ __v, ...rest }) => rest)
+      return await chefService.getAllChefs()
     } catch (err) {
       console.log('chef thunks=> could not get all chefs', err)
       return []
