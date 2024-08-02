@@ -8,7 +8,6 @@ export const getAllChefs = async (): Promise<Chef[]> => {
 
 //update
 export const updateChef = async (chefId: string, chefData: Chef): Promise<Chef> => {
-    console.log(chefData)
     return httpService.put(`chef/${chefId}`,chefData)
 }
 

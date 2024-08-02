@@ -13,7 +13,6 @@ export const updateRestaurant = async (restaurantId: string, restauranData: Rest
 
 //create
 export const addRestaurant = async (restauranData: Restaurant): Promise<Restaurant> => {
-    console.log(restauranData)
     return httpService.post(`restaurant/`,restauranData)
 }
 

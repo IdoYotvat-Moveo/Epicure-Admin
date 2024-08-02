@@ -65,7 +65,6 @@ export const addRestaurant = createAsyncThunk<Restaurant, AddPayload<Restaurant>
       const restaurantData: Restaurant = {
         ...data, dishes: dishesId, chef: chefId, signatureDish: signatureDishId
       }
-
       return await restaurantService.addRestaurant(restaurantData)
     } catch (err: any) {
       console.log('restaurant thunks=> could not add restaurant', err)

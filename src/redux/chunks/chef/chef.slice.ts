@@ -31,7 +31,6 @@ const chefSlice = createSlice({
             ...chef,
             restaurants: chef.restaurants?.map(res => res.name)
         }))
-        console.log(state.chefs)
     })
       .addCase(getAllChefs.rejected, (state, action) => {
         state.status = 'failed'

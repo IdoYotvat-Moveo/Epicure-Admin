@@ -96,13 +96,12 @@ const GenericTable = ({ entity }: GenericTableProps) => {
       console.log('genericTable => cannot remove entity =>', error)
 
     }
-    console.log('Deleting:', row)
   }
 
 
   if (!data || !data.length) return <div className="loader"></div>
   const headers = Object.keys(data[0])
-
+  
   return (
     (<>
       <FormModal entity={entity} open={open} setOpen={setOpen} initialData={initialData} setInitialData={setInitialData} />
