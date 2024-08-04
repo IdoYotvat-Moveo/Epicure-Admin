@@ -9,9 +9,9 @@ function App() {
     <Router>
       <Routes>
           <Route path="/" element={<HomePage />}>
-            <Route path="chef" element={<GenericTable entity="Chef" />} />
-            <Route path="restaurant" element={<GenericTable entity="Restaurant" />} />
-            <Route path="dish" element={<GenericTable entity="Dish" />} />
+            <Route path="chef" element={<GenericTable entity="chef" />} />
+            <Route path="restaurant" element={<GenericTable entity="restaurant" />} />
+            <Route path="dish" element={<GenericTable entity="dish" />} />
           </Route>
       </Routes>
     </Router>

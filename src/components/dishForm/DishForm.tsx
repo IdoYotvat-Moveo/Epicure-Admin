@@ -1,0 +1,180 @@
+import { useState } from "react"
+import { Chef, Dish, EiconMeaning, Restaurant } from "../../data/types"
+import { StyledForm, StyledSubmitBtn } from "../chefForm/style"
+import { FormControlLabel, FormHelperText, InputLabel, MenuItem, OutlinedInput, Select, SelectChangeEvent, Switch, TextField } from "@mui/material"
+
+interface DishFormProps {
+    restaurants: Restaurant[]
+    handleSubmit: (data: Chef | Restaurant | Dish) => Promise<void>
+    initialData?: Dish
+    handleClose: () => void
+
+}
+
+const DishForm = ({ restaurants, handleSubmit, initialData, handleClose }: DishFormProps) => {
+    const [formData, setFormData] = useState(initialData || {
+        title: '',
+        image: '',
+        ingredients: [] as string[],
+        restaurant: '',
+        price: 0,
+        icons: [] as EiconMeaning[],
+        isActive: true
+    })
+    const [errors, setErrors] = useState({
+        restaurant: false,
+        price: false,
+        title: false
+    })
+    const handleChange = (ev: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement> | SelectChangeEvent<string> | SelectChangeEvent<string[]>) => {
+        const { name, value } = ev.target
+
+        if (name === "ingredients") {
+            setFormData(prevFormData => ({
+                ...prevFormData,
+                ingredients: (value as string).split(',').map((ingredient: string) => ingredient.trim())
+            }))
+        } else if (name === "price") {
+            setFormData(prevFormData => ({
+                ...prevFormData,
+                price: +value
+            }))
+        } else {
+            setFormData(prevFormData => ({
+                ...prevFormData,
+                [name]: value
+            }))
+            if (name === "title" && value) {
+                setErrors(prevErrors => ({
+                    ...prevErrors,
+                    title: false
+                }))
+            }
+            if (name === "restaurant" && value) {
+                setErrors(prevErrors => ({
+                    ...prevErrors,
+                    restaurant: false
+                }))
+            }
+        }
+    }
+
+
+    const handleSwitchChange = (ev: React.ChangeEvent<HTMLInputElement>) => {
+        const { name, checked } = ev.target
+        setFormData({
+            ...formData,
+            [name]: checked
+        })
+    }
+
+    const validateForm = () => {
+        const newErrors = {
+            title: !formData.title,
+            price: formData.price <= 0,
+            restaurant: !formData.restaurant
+        }
+        setErrors(newErrors)
+
+        return !Object.values(newErrors).some(error => error)
+    }
+
+    const submitHandler = async (ev: React.FormEvent) => {
+        ev.preventDefault()
+        if (!validateForm()) {
+            return
+        }
+        await handleSubmit(formData)
+    }
+    
+    return (
+        <StyledForm onSubmit={submitHandler} onBlur={() => handleClose}>
+            <TextField
+                name="title"
+                value={formData.title}
+                onChange={handleChange}
+                label="Title"
+                variant="outlined"
+                autoComplete='off'
+                error={errors.title}
+                helperText={errors.title ? "Title is required" : ""}
+            />
+            <TextField
+                name="image"
+                value={formData.image}
+                onChange={handleChange}
+                label="ImageUrl"
+                variant="outlined"
+                autoComplete='off'
+            />
+            <TextField
+                id="outlined-number"
+                label="Price"
+                type="number"
+                name="price"
+                value={formData.price}
+                onChange={handleChange}
+                error={errors.price}
+                helperText={errors.price ? "Price must be greater than 0" : ""}
+            />
+            <InputLabel id="restaurant">Restaurant</InputLabel>
+            <Select
+                name="restaurant"
+                labelId="restaurant"
+                id="restaurant-select"
+                value={formData.restaurant as string}
+                onChange={handleChange}
+                input={<OutlinedInput label="Restaurant" />}
+                error={errors.restaurant}
+            >
+                {restaurants.map((res) => (
+                    <MenuItem key={res._id} value={res.name}>
+                        {res.name}
+                    </MenuItem>
+                ))}
+            </Select>
+            {errors.restaurant && (
+                <FormHelperText error>Please select a restaurant</FormHelperText>
+            )}
+            <InputLabel id="icons">Tags</InputLabel>
+            <Select
+                name="icons"
+                labelId="icons"
+                id="icons-select"
+                multiple
+                value={formData.icons as EiconMeaning[]}
+                onChange={handleChange}
+                input={<OutlinedInput label="Icons" />}
+                renderValue={(selected) => (selected as EiconMeaning[]).join(', ')}
+            >
+                {Object.values(EiconMeaning).map((icon) => (
+                    <MenuItem key={icon} value={icon}>
+                        {icon}
+                    </MenuItem>
+                ))}
+            </Select>
+            <TextField
+                name="ingredients"
+                value={formData.ingredients.join(', ')}
+                onChange={handleChange}
+                label="Ingredients"
+                variant="outlined"
+                autoComplete='off'
+                multiline
+            />
+            <FormControlLabel
+                control={
+                    <Switch
+                        checked={formData.isActive}
+                        onChange={handleSwitchChange}
+                        name="isActive"
+                    />
+                }
+                label="Is Active?"
+            />
+            <StyledSubmitBtn type="submit">Submit</StyledSubmitBtn>
+        </StyledForm>
+    )
+}
+
+export default DishForm

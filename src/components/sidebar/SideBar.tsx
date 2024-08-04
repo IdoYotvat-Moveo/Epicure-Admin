@@ -37,7 +37,7 @@ const SideBar = () => {
               <ListItem key={menuItem.text} disablePadding>
                 <ListItemButton onClick={() => handleListItemClick(menuItem.text)}>
                   <ListItemIcon>
-                    <menuItem.icon />
+                    <menuItem.icon/>
                   </ListItemIcon>
                   <ListItemText primary={menuItem.text} />
                 </ListItemButton>
