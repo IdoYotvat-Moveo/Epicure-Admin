@@ -116,7 +116,7 @@ const GenericTable = ({ entity }: GenericTableProps) => {
           </TableHead>
           <TableBody>
             {data.map((row, index) => (
-              <GenericTableRow key={index} row={row} onEdit={handleEdit} onDelete={handleDelete} />
+              <GenericTableRow key={index} row={row} onEdit={handleEdit} onDelete={handleDelete} entity={entity} />
             ))}
           </TableBody>
         </StyledTable>
