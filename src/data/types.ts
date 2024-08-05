@@ -72,4 +72,10 @@ export interface RemovePayload {
     id: string
 }
 
+//user
+export type LoginData =  {
+    email: string;
+    password: string;
+  }
+
 
