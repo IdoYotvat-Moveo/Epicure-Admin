@@ -8,15 +8,15 @@ function App() {
 
   return (
     <Router>
-      <Routes>
-          <Route path="/" element={<LoginPage />}>
-          {/* <Route path="/" element={<HomePage />}> */}
-            <Route path="chef" element={<GenericTable entity="chef" />} />
-            <Route path="restaurant" element={<GenericTable entity="restaurant" />} />
-            <Route path="dish" element={<GenericTable entity="dish" />} />
-          </Route>
-      </Routes>
-    </Router>
+    <Routes>
+      <Route path="/" element={<LoginPage />} />
+      <Route path="/home" element={<HomePage />}>
+        <Route path="chef" element={<GenericTable entity="chef" />} />
+        <Route path="restaurant" element={<GenericTable entity="restaurant" />} />
+        <Route path="dish" element={<GenericTable entity="dish" />} />
+      </Route>
+    </Routes>
+  </Router>
   )
 }
 

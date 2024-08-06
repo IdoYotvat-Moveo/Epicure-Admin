@@ -73,9 +73,28 @@ export interface RemovePayload {
 }
 
 //user
+
+export enum ERole {
+    ADMIN = "admin",
+    USER = "user",
+}
+
+export interface IUser {
+    name: string
+    surename: string
+    mail: string
+    password: string
+    role: ERole
+}
+
 export type LoginData =  {
-    email: string;
+    mail: string;
     password: string;
+  }
+
+  export interface LoginResponse {
+    user: IUser;
+    token: string;
   }
 
 
