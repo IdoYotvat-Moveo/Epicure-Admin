@@ -11,11 +11,12 @@ interface GenericTableRowProps {
     row: Entity
     onEdit: (row: Entity) => void
     onDelete: (row: Entity) => void
-    entity:EntityType
+    entity: EntityType
+    isAdmin: boolean
 }
 
 
-const GenericTableRow = ({ row, onDelete, onEdit,entity }: GenericTableRowProps) => {
+const GenericTableRow = ({ row, onDelete, onEdit, entity, isAdmin }: GenericTableRowProps) => {
     let rowValues = Object.entries(row)
 
     if (entity === 'restaurant') {
@@ -26,19 +27,19 @@ const GenericTableRow = ({ row, onDelete, onEdit,entity }: GenericTableRowProps)
     return (
         <TableRow>
             {rowValues.map(([key, value], index) => (
-                <TableCell key={index} align="right">
+                <TableCell key={index} align="left">
                     {utilService.formatValue(key, value)}
                 </TableCell>
             ))}
-            <TableCell align="right">
-                <StyledActionBtn onClick={() => onEdit(row)}>
+            <TableCell align="left">
+                {isAdmin && <StyledActionBtn onClick={() => onEdit(row)}>
                     <EditIcon />
-                </StyledActionBtn>
+                </StyledActionBtn>}
             </TableCell>
-            <TableCell align="right">
-                <StyledActionBtn onClick={() => onDelete(row)}>
+            <TableCell align="left">
+                {isAdmin && <StyledActionBtn onClick={() => onDelete(row)}>
                     <DeleteIcon />
-                </StyledActionBtn>
+                </StyledActionBtn>}
             </TableCell>
         </TableRow>
 

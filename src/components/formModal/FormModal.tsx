@@ -21,10 +21,11 @@ interface ModalProps {
     setOpen: Dispatch<SetStateAction<boolean>>
     initialData?: Chef | Restaurant | Dish | null
     setInitialData: Dispatch<SetStateAction<Chef | Restaurant | Dish | null>>
+    isAdmin: boolean
 }
 
 
-const FormModal = ({ entity, open, setOpen, initialData,setInitialData }: ModalProps) => {
+const FormModal = ({ entity, open, setOpen, initialData, setInitialData,isAdmin }: ModalProps) => {
     const dispatch = useDispatch<AppDispatch>()
 
     const restaurants = useSelector((state: RootState) => state.restaurants.restaurants)
@@ -79,9 +80,9 @@ const FormModal = ({ entity, open, setOpen, initialData,setInitialData }: ModalP
 
     return (
         <div>
-            <Button onClick={handleOpen}>
+            {isAdmin && <Button onClick={handleOpen}>
                 <AddBoxSharpIcon fontSize='large' />
-            </Button>
+            </Button>}
             <Modal
                 open={open}
                 onClose={handleClose}
@@ -89,9 +90,9 @@ const FormModal = ({ entity, open, setOpen, initialData,setInitialData }: ModalP
                 aria-describedby="modal-modal-description"
             >
                 <StyledModal>
-                    <Typography id="modal-modal-title" variant="h6" component="h2" sx={{marginBlockEnd:5}}>
-                       {!initialData && `Add ${entity}`}
-                       {initialData && `edit ${entity}`}
+                    <Typography id="modal-modal-title" variant="h6" component="h2" sx={{ marginBlockEnd: 5 }}>
+                        {!initialData && `Add ${entity}`}
+                        {initialData && `edit ${entity}`}
                     </Typography>
                     {entity === 'chef' && <ChefForm restaurants={restaurants} handleSubmit={handleSubmit} initialData={initialData as Chef} handleClose={handleClose} />}
                     {entity === 'restaurant' && <RestaurantForm chefs={chefs} handleSubmit={handleSubmit} dishes={dishes} initialData={initialData as Restaurant} handleClose={handleClose} />}

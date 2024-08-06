@@ -80,7 +80,11 @@ const ChefForm = ({ restaurants, handleSubmit, initialData, handleClose }: ChefF
         if (!validateForm()) {
             return
         }
-        await handleSubmit(formData)
+        try{
+            await handleSubmit(formData)
+        } catch(err){
+            console.log('err!!!:',err) 
+        }
     }
 
     return (

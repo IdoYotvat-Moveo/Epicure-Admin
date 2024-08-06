@@ -13,8 +13,10 @@ import { AppDispatch } from '../../redux/store/store'
 import * as dishThunks from '../../redux/chunks/dish/dish.thunks'
 import * as chefThunks from '../../redux/chunks/chef/chef.thunks'
 import * as restaurantThunks from '../../redux/chunks/restaurant/restaurant.thunks'
+import * as userService from '../../services/user.service'
 import FormModal from '../formModal/FormModal'
 import { Chef, Dish, Entity, EntityType, Restaurant } from '../../data/types'
+import { Alert, AlertTitle } from '@mui/material'
 
 
 interface GenericTableProps {
@@ -25,6 +27,16 @@ const GenericTable = ({ entity }: GenericTableProps) => {
   const [open, setOpen] = useState(false)
   const [initialData, setInitialData] = useState<Chef | Restaurant | Dish | null>(null)
   const dispatch = useDispatch<AppDispatch>()
+  const [isAdmin, setIsAdmin] = useState(false)
+
+  useEffect(() => {
+    try {
+      const adminStatus = userService.checkIsAdmin()
+      setIsAdmin(adminStatus)
+    } catch (err) {
+      console.log('Cannot retrieve token or check admin status:', err)
+    }
+  }, [])
 
   const data = useSelector((state: RootState) => {
     switch (entity) {
@@ -76,7 +88,7 @@ const GenericTable = ({ entity }: GenericTableProps) => {
     if (!row._id) {
       console.error('No ID provided for deletion')
       return;
-  }
+    }
     try {
       switch (entity.toLowerCase()) {
         case 'chef':
@@ -101,25 +113,30 @@ const GenericTable = ({ entity }: GenericTableProps) => {
 
   if (!data || !data.length) return <div className="loader"></div>
   const headers = Object.keys(data[0])
-  
+
   return (
     (<>
-      <FormModal entity={entity} open={open} setOpen={setOpen} initialData={initialData} setInitialData={setInitialData} />
+      <FormModal entity={entity} open={open} setOpen={setOpen} initialData={initialData} setInitialData={setInitialData} isAdmin={isAdmin} />
       <TableContainer component={Paper}>
         <StyledTable aria-label="simple table">
           <TableHead>
             <TableRow>
               {headers.map((header) => (
-                <TableCell key={header} align="right">{header}</TableCell>
+                <TableCell key={header} align="left">{header}</TableCell>
               ))}
             </TableRow>
           </TableHead>
           <TableBody>
             {data.map((row, index) => (
-              <GenericTableRow key={index} row={row} onEdit={handleEdit} onDelete={handleDelete} entity={entity} />
+              <GenericTableRow key={index} row={row} onEdit={handleEdit} onDelete={handleDelete} entity={entity} isAdmin={isAdmin} />
             ))}
           </TableBody>
         </StyledTable>
+        { !isAdmin && 
+          <Alert severity="info">
+            <AlertTitle>Info</AlertTitle>
+            You are NOT the Admin, and cannot perform operations.
+          </Alert>}
       </TableContainer>
     </>
     )
