@@ -15,6 +15,7 @@ const LoginPage = () => {
     mail: false,
     password: false,
   })
+  
   const navigate = useNavigate()
   const [errorMessage, setErrorMessage] = useState<string | null>(null)
 
@@ -48,9 +49,7 @@ const LoginPage = () => {
         if (response) {
           const token = response.token
           sessionStorage.setItem('JWT', token)
-          //success - navigate =>
           navigate('/home/chef')
-
         } else {
           setErrorMessage("Invalid email or password. Please try again.")
         }

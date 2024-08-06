@@ -19,8 +19,8 @@ const GenericTableRow = ({ row, onDelete, onEdit,entity }: GenericTableRowProps)
     let rowValues = Object.entries(row)
 
     if (entity === 'restaurant') {
-        const orderedKeys: (keyof Restaurant)[] = ['_id', 'name', 'chef', 'image', 'rating', 'dishes', 'isPopular', 'signatureDish'];
-        rowValues = orderedKeys.map(key => [key, row[key as keyof Entity]]);
+        const orderedKeys: (keyof Restaurant)[] = ['_id', 'name', 'chef', 'image', 'rating', 'dishes', 'isPopular', 'signatureDish']
+        rowValues = orderedKeys.map(key => [key, row[key as keyof Entity]])
     }
 
     return (

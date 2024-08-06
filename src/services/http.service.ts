@@ -10,12 +10,12 @@ const axios = Axios.create({
 
 const getAuthToken = (): string | null => {
     return sessionStorage.getItem('JWT');
-};
+}
 
 
 const getHeaders = (): AxiosRequestConfig['headers'] => {
-    const token = getAuthToken();
-    return token ? { Authorization: `Bearer ${token}` } : {};
+    const token = getAuthToken()
+    return token ? { Authorization: `Bearer ${token}` } : {}
 }
 
 export const httpService = {

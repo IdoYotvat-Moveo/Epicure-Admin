@@ -88,13 +88,13 @@ export interface IUser {
 }
 
 export type LoginData =  {
-    mail: string;
-    password: string;
+    mail: string
+    password: string
   }
 
   export interface LoginResponse {
-    user: IUser;
-    token: string;
+    user: IUser
+    token: string
   }
 
 
