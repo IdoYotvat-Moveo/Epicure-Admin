@@ -118,6 +118,11 @@ const GenericTable = ({ entity }: GenericTableProps) => {
     (<>
       <FormModal entity={entity} open={open} setOpen={setOpen} initialData={initialData} setInitialData={setInitialData} isAdmin={isAdmin} />
       <TableContainer component={Paper}>
+              { !isAdmin && 
+                <Alert severity="info">
+                  <AlertTitle>Info</AlertTitle>
+                  You are NOT the Admin, and cannot perform operations.
+                </Alert>}
         <StyledTable aria-label="simple table">
           <TableHead>
             <TableRow>
@@ -132,11 +137,6 @@ const GenericTable = ({ entity }: GenericTableProps) => {
             ))}
           </TableBody>
         </StyledTable>
-        { !isAdmin && 
-          <Alert severity="info">
-            <AlertTitle>Info</AlertTitle>
-            You are NOT the Admin, and cannot perform operations.
-          </Alert>}
       </TableContainer>
     </>
     )

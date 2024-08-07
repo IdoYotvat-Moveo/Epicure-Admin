@@ -28,7 +28,6 @@ export const loginUser = async (data: LoginData): Promise<LoginResponse> => {
 export const checkIsAdmin = (): boolean => {
     const token = sessionStorage.getItem('JWT');
     if (!token) {
-        console.error('No token found')
         return false
     }
     try {
@@ -41,8 +40,13 @@ export const checkIsAdmin = (): boolean => {
             return false
         }
     } catch (error) {
-        console.error('Error decoding token:', error)
         return false
     }
 }
+
+export const isAuthenticated = () => {
+    const token = sessionStorage.getItem('JWT')
+    console.log(token)
+    return token !== null
+  }
 
