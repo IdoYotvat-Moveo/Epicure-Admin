@@ -75,11 +75,16 @@ const ChefForm = ({ restaurants, handleSubmit, initialData, handleClose }: ChefF
     }
 
     const submitHandler = async (ev: React.FormEvent) => {
-        ev.preventDefault()
+        //todo bad practic
+        // ev.preventDefault()
         if (!validateForm()) {
             return
         }
-        await handleSubmit(formData)
+        try{
+            await handleSubmit(formData)
+        } catch(err){
+            console.log('err!!!:',err) 
+        }
     }
 
     return (

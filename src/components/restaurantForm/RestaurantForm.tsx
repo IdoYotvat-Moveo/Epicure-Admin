@@ -84,7 +84,8 @@ const RestaurantForm = ({ chefs, handleSubmit, dishes, initialData, handleClose 
     }
 
     const submitHandler = async (ev: React.FormEvent) => {
-        ev.preventDefault()
+        //todo bad practice
+        // ev.preventDefault()
         if (!validateForm()) {
             return
         }

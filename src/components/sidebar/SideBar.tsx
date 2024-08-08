@@ -16,7 +16,7 @@ const SideBar = () => {
   const navigate = useNavigate()
 
   const handleListItemClick = (path: string) => {
-    navigate(`/${path.toLowerCase()}`)
+    navigate(`/home/${path.toLowerCase()}`)
   }
 
   return (

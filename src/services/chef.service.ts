@@ -12,7 +12,7 @@ export const updateChef = async (chefId: string, chefData: Chef): Promise<Chef> 
 }
 
 //create
-export const addChef = async ( chefData: Chef): Promise<Chef> => {
+export const addChef = async (chefData: Chef): Promise<Chef> => {
     return httpService.post(`chef/`,chefData)
 }
 

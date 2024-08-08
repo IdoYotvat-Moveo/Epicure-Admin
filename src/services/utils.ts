@@ -9,7 +9,8 @@ export const formatValue = (key: string, value: any): string => {
   if (typeof value === 'object' && value !== null) {
     if (key === 'restaurant' || key === 'chef') {
       return value.name || 'N/A'
-    } else if (key === 'signatureDish') {
+    }
+    if (key === 'signatureDish') {
       return value.title || 'No signature dish'
     }
     return JSON.stringify(value)
@@ -17,7 +18,9 @@ export const formatValue = (key: string, value: any): string => {
 
   if (key === 'signatureDish' && !value) {
     return 'No signature dish'
-  } else if (key === 'chef' && !value) {
+  }
+
+  if (key === 'chef' && !value) {
     return 'N/A'
   }
 
@@ -25,4 +28,7 @@ export const formatValue = (key: string, value: any): string => {
 }
 
 
-
+export const validateEmail = (mail: string): boolean => {
+  const regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
+  return regex.test(mail)
+}

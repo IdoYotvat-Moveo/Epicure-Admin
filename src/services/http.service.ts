@@ -8,6 +8,16 @@ const axios = Axios.create({
     withCredentials: true
 })
 
+const getAuthToken = (): string | null => {
+    return sessionStorage.getItem('JWT')
+}
+
+
+const getHeaders = (): AxiosRequestConfig['headers'] => {
+    const token = getAuthToken()
+    return token ? { Authorization: `Bearer ${token}` } : {}
+}
+
 export const httpService = {
     get<T>(endpoint: string, data?: any): Promise<T> {
         return ajax<T>(endpoint, 'GET', data)
@@ -29,7 +39,8 @@ async function ajax<T>(endpoint: string, method: 'GET' | 'POST' | 'PUT' | 'DELET
             url: `${BASE_URL}${endpoint}`,
             method,
             data,
-            params: (method === 'GET') ? data : null
+            params: (method === 'GET') ? data : null,
+            headers: getHeaders() 
         }
 
         const res: AxiosResponse<T> = await axios(config)
