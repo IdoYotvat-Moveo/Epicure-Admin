@@ -5,12 +5,12 @@ import LoginPage from './pages/login-page/LoginPage'
 import * as userService from './services/user.service'
 
 interface PrivateRouteProps {
-  element: JSX.Element;
+  element: JSX.Element
 }
 function App() {
 
   const PrivateRoute = ({ element }:PrivateRouteProps) => {
-    return userService.isAuthenticated() ? element : <Navigate to="/" />;
+    return userService.isAuthenticated() ? element : <Navigate to="/" />
   }
 
   return (

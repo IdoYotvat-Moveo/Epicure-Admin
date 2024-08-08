@@ -1,13 +1,13 @@
-import { jwtDecode } from "jwt-decode";
+import { jwtDecode } from "jwt-decode"
 import { LoginData, LoginResponse } from "../data/types"
 import { httpService } from './http.service'
 import CryptoJS from 'crypto-js'
 
 
 interface DecodedToken {
-    id: string;
-    name: string;
-    role: string;
+    id: string
+    name: string
+    role: string
 }
 
 const secretKey = import.meta.env.VITE_SECRET_KEY
@@ -26,7 +26,7 @@ export const loginUser = async (data: LoginData): Promise<LoginResponse> => {
 }
 
 export const checkIsAdmin = (): boolean => {
-    const token = sessionStorage.getItem('JWT');
+    const token = sessionStorage.getItem('JWT')
     if (!token) {
         return false
     }
@@ -46,7 +46,6 @@ export const checkIsAdmin = (): boolean => {
 
 export const isAuthenticated = () => {
     const token = sessionStorage.getItem('JWT')
-    console.log(token)
     return token !== null
   }
 

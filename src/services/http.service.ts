@@ -9,7 +9,7 @@ const axios = Axios.create({
 })
 
 const getAuthToken = (): string | null => {
-    return sessionStorage.getItem('JWT');
+    return sessionStorage.getItem('JWT')
 }
 
 
