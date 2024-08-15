@@ -15,18 +15,43 @@ export const getAllDishes = createAsyncThunk<Dish[]>(
   }
 )
 
+// export const updateDish = createAsyncThunk<Dish, UpdatePayload<Dish>>(
+//   'dish/update',
+//   async ({ id, data }, { getState, rejectWithValue }) => {
+//     try {
+//       const state = getState() as RootState
+//       const restaurantId = data.restaurant ?
+//         state.restaurants.restaurants.find(res => res.name === data.restaurant)?._id || null
+//         : null
+//       const dishData: Dish = {
+//         ...data, restaurant: restaurantId
+//       }
+//       return await dishService.updateDish(id, dishData)
+//     } catch (err: any) {
+//       console.log('dish thunks=> could not update dish', err)
+//       return rejectWithValue(err.response?.data || err.message)
+//     }
+//   }
+// )
+
 export const updateDish = createAsyncThunk<Dish, UpdatePayload<Dish>>(
   'dish/update',
   async ({ id, data }, { getState, rejectWithValue }) => {
     try {
       const state = getState() as RootState
-      const restaurantId = data.restaurant ?
-        state.restaurants.restaurants.find(res => res.name === data.restaurant)?._id || null
-        : null
-      const dishData: Dish = {
-        ...data, restaurant: restaurantId
+      const restaurantId = data.restaurant
+        ? state.restaurants.restaurants.find(res => res.name === data.restaurant)?._id
+        : undefined
+      if (!restaurantId) {
+        return rejectWithValue("Restaurant not found or invalid");
       }
-      return await dishService.updateDish(id, dishData)
+
+      const dishData: Partial<Dish> = {
+        ...data,
+        restaurant: restaurantId 
+      }
+
+      return await dishService.updateDish(id, dishData as Dish)
     } catch (err: any) {
       console.log('dish thunks=> could not update dish', err)
       return rejectWithValue(err.response?.data || err.message)
@@ -34,18 +59,43 @@ export const updateDish = createAsyncThunk<Dish, UpdatePayload<Dish>>(
   }
 )
 
+// export const addDish = createAsyncThunk<Dish, AddPayload<Dish>>(
+//   'dish/add',
+//   async ({ data }, { getState, rejectWithValue }) => {
+//     const state = getState() as RootState
+//     const restaurantId = data.restaurant ?
+//       state.restaurants.restaurants.find(res => res.name === data.restaurant)?._id || null
+//       : null
+//     const dishData: Dish = {
+//       ...data, restaurant: restaurantId
+//     }
+
+//     try {
+//       return await dishService.addDish(dishData)
+//     } catch (err: any) {
+//       console.log('dish thunks=> could not add dish', err)
+//       return rejectWithValue(err.response?.data || err.message)
+//     }
+//   }
+// )
+
 export const addDish = createAsyncThunk<Dish, AddPayload<Dish>>(
   'dish/add',
   async ({ data }, { getState, rejectWithValue }) => {
-    const state = getState() as RootState
-    const restaurantId = data.restaurant ?
-      state.restaurants.restaurants.find(res => res.name === data.restaurant)?._id || null
-      : null
-    const dishData: Dish = {
-      ...data, restaurant: restaurantId
-    }
-
     try {
+      const state = getState() as RootState
+      const restaurantId = data.restaurant
+        ? state.restaurants.restaurants.find(res => res.name === data.restaurant)?._id
+        : undefined
+      if (!restaurantId) {
+        return rejectWithValue("Restaurant not found or invalid");
+      }
+
+      const dishData: Dish = {
+        ...data,
+        restaurant: restaurantId 
+      }
+
       return await dishService.addDish(dishData)
     } catch (err: any) {
       console.log('dish thunks=> could not add dish', err)

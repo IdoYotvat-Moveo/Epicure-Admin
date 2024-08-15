@@ -1,7 +1,7 @@
 import Axios, { AxiosRequestConfig, AxiosResponse } from 'axios'
 
 const BASE_URL = process.env.NODE_ENV === 'production'
-    ? '/api/'
+    ? '/api/v1/'
     : '//localhost:3030/api/v1/'
 
 const axios = Axios.create({
@@ -11,7 +11,6 @@ const axios = Axios.create({
 const getAuthToken = (): string | null => {
     return sessionStorage.getItem('JWT')
 }
-
 
 const getHeaders = (): AxiosRequestConfig['headers'] => {
     const token = getAuthToken()

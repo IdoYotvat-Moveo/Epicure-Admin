@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { Restaurant } from '../../../data/types'
+import { BasicDish, Chef, Restaurant } from '../../../data/types'
 import { addRestaurant, getAllRestaurants, removeRestaurant, updateRestaurant } from './restaurant.thunks'
 
 export interface RestaurantState {
@@ -28,9 +28,9 @@ const restaurantSlice = createSlice({
         state.status = 'succeeded'
         state.restaurants = action.payload.map((res) => ({
           ...res,
-          chef: res.chef?.name,
-          dishes: res.dishes?.map(dish => dish.title),
-          signatureDish: res.signatureDish?.title,
+          chef: (res.chef as Chef).name,
+          dishes: (res.dishes as BasicDish[])?.map(dish =>dish.title),
+          signatureDish: res.signatureDish,
         }))
       })
       .addCase(getAllRestaurants.rejected, (state, action) => {

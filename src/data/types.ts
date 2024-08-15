@@ -31,7 +31,7 @@ export type Dish = {
     image?: string
     ingredients: string[]
     price: number
-    restaurant: string | null
+    restaurant: string | Restaurant
     icons: EiconMeaning[] | null
     isActive: boolean
 }
@@ -43,7 +43,7 @@ export type Restaurant = {
     chef?: Chef | string | null | undefined
     image: string
     rating: number
-    dishes: string[]
+    dishes: string[] | BasicDish[]
     signatureDish?: string | undefined | null
     isPopular?: boolean
 }
@@ -55,6 +55,11 @@ export type Chef = {
     image?: string
     restaurants?: Restaurant[] | string[]
     isChefOfTheWeek: boolean
+}
+
+export type BasicDish = {
+    title: string
+    _id: string
 }
 
 export type Entity = Chef | Dish | Restaurant
@@ -87,14 +92,14 @@ export interface IUser {
     role: ERole
 }
 
-export type LoginData =  {
+export type LoginData = {
     mail: string
     password: string
-  }
+}
 
-  export interface LoginResponse {
+export interface LoginResponse {
     user: IUser
     token: string
-  }
+}
 
 

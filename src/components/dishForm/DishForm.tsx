@@ -81,7 +81,7 @@ const DishForm = ({ restaurants, handleSubmit, initialData, handleClose }: DishF
 
     const submitHandler = async (ev: React.FormEvent) => {
         //todo bad practice
-        // ev.preventDefault()
+        ev.preventDefault()
         if (!validateForm()) {
             return
         }

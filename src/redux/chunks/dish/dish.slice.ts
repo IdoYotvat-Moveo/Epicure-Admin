@@ -27,9 +27,13 @@ const dishSlice = createSlice({
             })
             .addCase(getAllDishes.fulfilled, (state, action: PayloadAction<Dish[]>) => {
                 state.status = 'succeeded'
-                state.dishes = action.payload.map(dish=>({
+                state.dishes = action.payload.map(dish => ({
                     ...dish,
-                    restaurant:dish.restaurant?.name
+                    // restaurant:dish.restaurant?.name
+                    restaurant: typeof dish.restaurant === 'object' && dish.restaurant !== null
+                        ? dish.restaurant.name
+                        : dish.restaurant
+
                 }))
             })
             .addCase(getAllDishes.rejected, (state, action) => {

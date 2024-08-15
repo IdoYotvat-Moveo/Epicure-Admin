@@ -19,11 +19,19 @@ export const updateRestaurant = createAsyncThunk<Restaurant, UpdatePayload<Resta
   'restaurant/update',
   async ({ id, data }, { getState, rejectWithValue }) => {
     try {
+      console.log('updating res',id)
       const state = getState() as RootState
+
+      const currentRestaurant = state.restaurants.restaurants.find(r => r._id === id);
+      if (!currentRestaurant) {
+        throw new Error('Restaurant not found');
+      }
+
       const dishIds = data.dishes?.map(dishTitle => {
         const dish = state.dishes.dishes.find(d => d.title === dishTitle)
         return dish?._id || null
       }).filter((id): id is string => id !== null)
+
       const chefId = data.chef ?
         state.chefs.chefs.find(chef => chef.name === data.chef)?._id || null
         : null
@@ -36,6 +44,7 @@ export const updateRestaurant = createAsyncThunk<Restaurant, UpdatePayload<Resta
         dishes: dishIds,
         chef: chefId,
         signatureDish: signatureDishId
+
       }
       return await restaurantService.updateRestaurant(id, restaurantData)
     } catch (err: any) {
@@ -44,6 +53,7 @@ export const updateRestaurant = createAsyncThunk<Restaurant, UpdatePayload<Resta
     }
   }
 )
+
 
 export const addRestaurant = createAsyncThunk<Restaurant, AddPayload<Restaurant>>(
   'restaurant/add',
